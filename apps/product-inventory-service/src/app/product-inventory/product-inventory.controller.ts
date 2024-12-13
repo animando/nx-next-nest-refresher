@@ -7,7 +7,7 @@ export class ProductInventoryController {
   constructor(private readonly productInventory: ProductInventoryService) {}
 
   @MessagePattern('inventory.get')
-  getNotifications() {
+  getInventory() {
 
     return this.productInventory.getInventory();
   }
