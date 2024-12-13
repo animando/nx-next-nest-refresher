@@ -7,14 +7,9 @@ export class ProductInventoryController {
   constructor(private readonly productInventory: ProductInventoryService) {}
 
   @Query('inventory')
-  getInventory(): InventoryItem[] {
-    console.log('get inventory');
-    return [
-      {
-        id: '1',
-        name: 'item',
-        sku: 'item-1'
-      }
-    ]
+  async getInventory(): Promise<InventoryItem[]> {
+
+    const rs = await this.productInventory.getInventory();
+    return rs;
   }
 }
