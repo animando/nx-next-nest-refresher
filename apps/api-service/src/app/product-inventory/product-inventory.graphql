@@ -5,5 +5,5 @@ type InventoryItem {
 }
 
 type Query {
-  inventory: [InventoryItem]
+  inventory: [InventoryItem!]!
 }
