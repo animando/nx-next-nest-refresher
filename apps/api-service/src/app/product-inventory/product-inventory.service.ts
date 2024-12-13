@@ -8,7 +8,6 @@ export class ProductInventoryService {
 
   async getInventory(): Promise<InventoryItem[]> {
     const response = await firstValueFrom(this.productInventoryClient.send("inventory.get", "payload"));
-    console.log({ response });
     return inventoryItemSchema.array().parse(response);
   }
 }
