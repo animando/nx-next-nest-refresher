@@ -6,6 +6,15 @@ services:
       - "15672:15672"
     volumes:
       - rabbitmq:/var/lib/rabbitmq
+  postgres:
+    image: postgres:14.5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_PASSWORD: example
 
 volumes:
   rabbitmq:
+  pgdata:

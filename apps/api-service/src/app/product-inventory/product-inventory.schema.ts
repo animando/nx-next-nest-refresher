@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const inventoryItemSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   sku: z.string(),
   name: z.string(),
 })

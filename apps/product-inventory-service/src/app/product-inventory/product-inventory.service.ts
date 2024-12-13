@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { ProductInventoryRepository } from './product-inventory.repository';
 
 @Injectable()
 export class ProductInventoryService {
+  constructor(private readonly repository: ProductInventoryRepository) {}
+
   getInventory() {
-    return [{id: "1", sku:"sku", name: 'name'}]
+    return this.repository.getAllInventoryItems()
   }
 }
