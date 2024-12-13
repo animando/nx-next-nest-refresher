@@ -27,7 +27,8 @@
       },
       "configurations": {
         "development": {
-          "buildTarget": "api-service:build:development"
+          "buildTarget": "api-service:build:development",
+          "port": 22100
         },
         "production": {
           "buildTarget": "api-service:build:production"

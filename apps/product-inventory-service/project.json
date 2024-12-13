@@ -27,7 +27,8 @@
       },
       "configurations": {
         "development": {
-          "buildTarget": "product-inventory-service:build:development"
+          "buildTarget": "product-inventory-service:build:development",
+          "port": 22101
         },
         "production": {
           "buildTarget": "product-inventory-service:build:production"
