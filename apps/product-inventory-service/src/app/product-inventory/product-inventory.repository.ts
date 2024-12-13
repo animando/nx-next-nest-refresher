@@ -6,8 +6,7 @@ import { InventoryItem } from '@prisma/client';
 export class ProductInventoryRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getAllInventoryItems(
-  ): Promise<InventoryItem[]> {
+  async getAllInventoryItems(): Promise<InventoryItem[]> {
     return this.prisma.inventoryItem.findMany();
   }
 }

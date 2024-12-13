@@ -8,9 +8,7 @@
       "name": "Attach to api-service",
       "port": 22100,
       "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node",
       "cwd": "${workspaceFolder}/apps/api-service/"
     },
@@ -18,9 +16,7 @@
       "name": "Attach to product-inventory-service",
       "port": 22101,
       "request": "attach",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "type": "node",
       "cwd": "${workspaceFolder}/apps/product-inventory-service/"
     }

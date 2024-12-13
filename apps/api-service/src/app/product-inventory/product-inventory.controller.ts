@@ -8,7 +8,6 @@ export class ProductInventoryController {
 
   @Query('inventory')
   async getInventory(): Promise<InventoryItem[]> {
-
     const rs = await this.productInventory.getInventory();
     return rs;
   }

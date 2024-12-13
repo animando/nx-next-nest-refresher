@@ -6,6 +6,6 @@ export class ProductInventoryService {
   constructor(private readonly repository: ProductInventoryRepository) {}
 
   getInventory() {
-    return this.repository.getAllInventoryItems()
+    return this.repository.getAllInventoryItems();
   }
 }

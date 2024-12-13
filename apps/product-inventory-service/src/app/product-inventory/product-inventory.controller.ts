@@ -8,7 +8,6 @@ export class ProductInventoryController {
 
   @MessagePattern('inventory.get')
   getInventory() {
-
     return this.productInventory.getInventory();
   }
 }

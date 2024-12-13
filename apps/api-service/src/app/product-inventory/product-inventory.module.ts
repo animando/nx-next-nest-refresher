@@ -17,15 +17,16 @@ import { PRODUCT_INVENTORY_CLIENT } from './symbols';
         name: PRODUCT_INVENTORY_CLIENT,
         transport: Transport.RMQ,
         options: {
-          urls: [`amqp://${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}`],
+          urls: [
+            `amqp://${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}`,
+          ],
           queue: process.env.RABBIT_QUEUE_NAME,
           queueOptions: {
-            durable: false
+            durable: false,
           },
         },
       },
     ]),
-
   ],
   providers: [ProductInventoryService, ProductInventoryController],
 })

@@ -7,6 +7,10 @@ import { ProductInventoryRepository } from './product-inventory.repository';
 @Module({
   imports: [],
   controllers: [ProductInventoryController],
-  providers: [ProductInventoryService, PrismaService, ProductInventoryRepository],
+  providers: [
+    ProductInventoryService,
+    PrismaService,
+    ProductInventoryRepository,
+  ],
 })
 export class ProductInventoryModule {}
