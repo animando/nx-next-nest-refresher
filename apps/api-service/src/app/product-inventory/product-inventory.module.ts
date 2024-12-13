@@ -4,6 +4,7 @@ import { ProductInventoryService } from './product-inventory.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     }),
     ClientsModule.register([
       {
-        name: 'PRODUCT_INVENTORY_CLIENT',
+        name: PRODUCT_INVENTORY_CLIENT,
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
