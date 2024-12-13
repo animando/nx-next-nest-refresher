@@ -9,6 +9,4 @@ const Page = async () => {
   );
 };
 
-export const revalidate = 36000;
-
 export default Page;
