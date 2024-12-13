@@ -1,15 +1,14 @@
-import { getInventoryItems } from './get-inventory-items';
-import { InventoryListContainer } from './inventory-list/inventory-list-container';
+import { InventoryList } from './inventory-list/inventory-list';
 
 const Page = async () => {
-  await getInventoryItems();
-
   return (
     <div>
       <h1>My Page</h1>
-      <InventoryListContainer />
+      <InventoryList />
     </div>
   );
 };
+
+export const revalidate = 36000;
 
 export default Page;

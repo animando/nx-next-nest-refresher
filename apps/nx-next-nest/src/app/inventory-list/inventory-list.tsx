@@ -1,7 +1,11 @@
+'use client';
+
+import { useQuery } from '@urql/next';
 import {
+  InventoryDocument,
   InventoryItem as InventoryItemType,
-  useInventoryQuery,
-} from '../../generated/product-information-client';
+} from '../../generated/product-information';
+import { useCallback } from 'react';
 
 export const InventoryItem = ({ item }: { item: InventoryItemType }) => {
   return (
@@ -23,25 +27,33 @@ export const InventoryItems = ({ items }: { items: InventoryItemType[] }) => {
 };
 
 export const InventoryList = () => {
-  const [{ data }] = useInventoryQuery();
+  const [{ data }, revalidate] = useQuery({ query: InventoryDocument });
 
   const inventoryItems = data?.inventory;
+
+  const refresh = useCallback(() => {
+    revalidate({ requestPolicy: 'network-only' });
+  }, [revalidate]);
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <td colSpan={3}>Inventory items</td>
-        </tr>
-      </thead>
-      <tbody>
-        {!inventoryItems ||
-          (!inventoryItems?.length && (
-            <tr>
-              <td colSpan={3}>Empty list</td>
-            </tr>
-          ))}
-        {inventoryItems?.length && <InventoryItems items={inventoryItems} />}
-      </tbody>
-    </table>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <td colSpan={3}>Inventory items</td>
+          </tr>
+        </thead>
+        <tbody>
+          {!inventoryItems ||
+            (!inventoryItems?.length && (
+              <tr>
+                <td colSpan={3}>Empty list</td>
+              </tr>
+            ))}
+          {inventoryItems?.length && <InventoryItems items={inventoryItems} />}
+        </tbody>
+      </table>
+      <button onClick={refresh}>Refresh</button>
+    </div>
   );
 };
