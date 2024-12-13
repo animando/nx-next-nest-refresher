@@ -1,0 +1,9 @@
+type InventoryItem {
+  id: Int!
+  sku: String!
+  name: String!
+}
+
+type Query {
+  inventory: [InventoryItem]
+}
