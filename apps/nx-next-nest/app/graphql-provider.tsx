@@ -2,7 +2,7 @@
 
 import { UrqlProvider } from '@urql/next';
 import { useMemo } from 'react';
-import { createClientAndSsr } from '../src/create-graphql-client';
+import { createClientAndSsr } from '../src/graphql/create-graphql-client';
 
 export const GraphqlProvider = ({ children }: React.PropsWithChildren) => {
   const [client, ssr] = useMemo(() => {

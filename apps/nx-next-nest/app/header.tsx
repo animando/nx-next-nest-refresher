@@ -10,8 +10,8 @@ const pages: Page[] = [
     route: '/inventory',
   },
   {
-    name: 'Page 2',
-    route: '/page2',
+    name: 'Counter',
+    route: '/counter',
   },
 ];
 
