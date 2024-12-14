@@ -4,7 +4,7 @@ import { useQuery } from '@urql/next';
 import {
   InventoryDocument,
   InventoryQuery,
-} from '../../generated/product-information';
+} from '../generated/product-information';
 import { useCallback } from 'react';
 import {
   Button,

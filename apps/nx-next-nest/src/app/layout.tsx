@@ -1,5 +1,7 @@
 import './global.css';
 import { GraphqlProvider } from './graphql-provider';
+import { NextUIProvider } from '@nextui-org/react';
+import { Header } from './header';
 
 export const metadata = {
   title: 'Welcome to nx-next-nest',
@@ -9,8 +11,13 @@ export const metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
-      <body>
-        <GraphqlProvider>{children}</GraphqlProvider>
+      <body className="m-2">
+        <NextUIProvider>
+          <GraphqlProvider>
+            <Header />
+            <main>{children}</main>
+          </GraphqlProvider>
+        </NextUIProvider>
       </body>
     </html>
   );

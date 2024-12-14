@@ -1,15 +1,7 @@
 schema: 'apps/api-service/src/app/product-inventory/product-inventory.graphql'
-documents: 'apps/nx-next-nest/product-inventory.graphql'
+documents: 'apps/nx-next-nest/src/app/inventory/product-inventory.graphql'
 generates:
-  # 'apps/nx-next-nest/src/generated/product-information-client.ts':
-  #   plugins:
-  #     - 'typescript'
-  #     - 'typescript-operations'
-  #     - 'typescript-urql'
-  #   config:
-  #     withComponent: false
-  #     withHooks: true
-  'apps/nx-next-nest/src/generated/product-information.ts':
+  'apps/nx-next-nest/src/app/inventory/generated/product-information.ts':
     plugins:
       - 'typescript'
       - 'typescript-operations'
