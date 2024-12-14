@@ -5,12 +5,15 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PRODUCT_INVENTORY_CLIENT } from './symbols';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      playground: false,
       typePaths: ['./**/*.graphql'],
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     ClientsModule.register([
       {
