@@ -6,7 +6,6 @@ const nextuiTheme = join(
   __dirname,
   '../../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
 );
-console.log({ nextuiTheme });
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
