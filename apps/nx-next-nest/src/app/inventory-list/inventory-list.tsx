@@ -3,31 +3,23 @@
 import { useQuery } from '@urql/next';
 import {
   InventoryDocument,
-  InventoryItem as InventoryItemType,
+  InventoryQuery,
 } from '../../generated/product-information';
 import { useCallback } from 'react';
-
-export const InventoryItem = ({ item }: { item: InventoryItemType }) => {
-  return (
-    <tr>
-      <td>{item.sku}</td>
-      <td>{item.name}</td>
-    </tr>
-  );
-};
-
-export const InventoryItems = ({ items }: { items: InventoryItemType[] }) => {
-  return (
-    <>
-      {items.map((item) => (
-        <InventoryItem key={item.id} item={item} />
-      ))}
-    </>
-  );
-};
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+} from '@nextui-org/react';
 
 export const InventoryList = () => {
-  const [{ data }, revalidate] = useQuery({ query: InventoryDocument });
+  const [{ data }, revalidate] = useQuery<InventoryQuery>({
+    query: InventoryDocument,
+  });
 
   const inventoryItems = data?.inventory;
 
@@ -37,23 +29,21 @@ export const InventoryList = () => {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <td colSpan={3}>Inventory items</td>
-          </tr>
-        </thead>
-        <tbody>
-          {!inventoryItems ||
-            (!inventoryItems?.length && (
-              <tr>
-                <td colSpan={3}>Empty list</td>
-              </tr>
-            ))}
-          {inventoryItems?.length && <InventoryItems items={inventoryItems} />}
-        </tbody>
-      </table>
-      <button onClick={refresh}>Refresh</button>
+      <Table>
+        <TableHeader>
+          <TableColumn>Id</TableColumn>
+          <TableColumn>name</TableColumn>
+        </TableHeader>
+        <TableBody emptyContent={!inventoryItems?.length}>
+          {(inventoryItems || []).map((item) => (
+            <TableRow key={item.id}>
+              <TableCell>{item.sku}</TableCell>
+              <TableCell>{item.name}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Button onPress={refresh}>Refresh</Button>
     </div>
   );
 };
