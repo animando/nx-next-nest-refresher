@@ -1,7 +1,12 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { ProductInventoryModule } from './product-inventory/product-inventory.module';
+import { LoggerModule, logger } from '@org/logger';
 
 @Module({
-  imports: [ProductInventoryModule],
+  imports: [ProductInventoryModule, LoggerModule],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  onModuleInit() {
+    logger.debug('logging with imported logger');
+  }
+}
