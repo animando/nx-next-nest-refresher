@@ -22,10 +22,11 @@ export default defineConfig({
     baseURL,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    video: 'on',
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run nx-next-nest:serve',
+    command: 'npx nx run nx-next-nest:serve-static',
     url: baseURL,
     reuseExistingServer: true,
     cwd: workspaceRoot,

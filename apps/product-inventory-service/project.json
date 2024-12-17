@@ -5,7 +5,11 @@
   "projectType": "application",
   "tags": [],
   "targets": {
+    "prisma-generate": {
+      "command": "prisma generate --schema apps/product-inventory-service/prisma/schema.prisma"
+    },
     "build": {
+      "dependsOn": ["prisma-generate"],
       "executor": "nx:run-commands",
       "options": {
         "command": "webpack-cli build",

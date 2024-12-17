@@ -227,8 +227,8 @@ devDependencies:
     specifier: 20.2.2
     version: 20.2.2(@swc-node/register@1.9.2)(@swc/core@1.5.29)
   playwright-lighthouse:
-    specifier: ^3.0.0
-    version: 3.0.0
+    specifier: ^2.2.2
+    version: 2.2.2
   postcss:
     specifier: 8.4.38
     version: 8.4.38
@@ -15326,9 +15326,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  /playwright-lighthouse@3.0.0:
-    resolution: {integrity: sha512-V1jrkxU4TB1PjeYU7y+Ilh5flOR7V6VKTkd5r28YNB74HTtfd2QxP1nCOzIWIqANtVaS8zE8b+mlaPdj2RwYSw==}
-    engines: {node: '>=16.x'}
+  /playwright-lighthouse@2.2.2:
+    resolution: {integrity: sha512-S8pj3sMfiResJWTemWxvPW+7Glwo1k/NXxPdLw5BzzDHZ7ILDwEfipxfGYD2nBSog84JbpzHGX9QzN/jRwX4Og==}
+    engines: {node: '>=10.x'}
     dependencies:
       chalk: 4.1.2
       ua-parser-js: 1.0.39
