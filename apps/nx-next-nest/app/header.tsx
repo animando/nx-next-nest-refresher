@@ -13,6 +13,10 @@ const pages: Page[] = [
     name: 'Counter',
     route: '/counter',
   },
+  {
+    name: 'Server Actions',
+    route: '/server-action',
+  },
 ];
 
 const NavLink = ({ page }: { page: Page }) => (
