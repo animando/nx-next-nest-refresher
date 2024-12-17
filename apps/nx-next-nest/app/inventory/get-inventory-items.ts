@@ -1,8 +1,8 @@
+import { getServersideGraphqlClient } from '../../src/graphql/create-serverside-graphql-client';
 import {
   InventoryDocument,
   InventoryQuery,
 } from './generated/product-information';
-import { getServersideGraphqlClient } from '../../create-serverside-graphql-client';
 const client = getServersideGraphqlClient();
 
 export const getInventoryItems = async () => {
