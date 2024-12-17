@@ -1,5 +1,6 @@
 {
   "name": "@org/source",
+  "type": "module",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {},
@@ -78,7 +79,9 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.7.0",
+    "lighthouse": "9.6.8",
     "nx": "20.2.2",
+    "playwright-lighthouse": "^3.0.0",
     "postcss": "8.4.38",
     "prettier": "^2.6.2",
     "prisma": "^6.0.1",
