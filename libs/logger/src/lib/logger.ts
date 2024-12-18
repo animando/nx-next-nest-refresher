@@ -23,8 +23,8 @@ type LogLevel = 'info' | 'debug' | 'warn' | 'error' | 'fatal' | 'trace';
 
 class Logger implements LoggerService {
   constructor(private readonly logger: PinoLogger) {
-    this.info = this.logWithLevel.bind(this, 'info');
     this.log = this.logWithLevel.bind(this, 'debug');
+    this.info = this.logWithLevel.bind(this, 'info');
     this.error = this.logWithLevel.bind(this, 'error');
     this.warn = this.logWithLevel.bind(this, 'warn');
     this.debug = this.logWithLevel.bind(this, 'debug');
@@ -45,16 +45,15 @@ class Logger implements LoggerService {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  log(message: string, obj?: unknown, ...args: unknown[]) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  info(message: string, obj?: unknown, ...args: unknown[]) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  error(message: string, obj?: unknown, ...args: unknown[]) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  warn(message: string, obj?: unknown, ...args: unknown[]) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  debug(message: string, obj?: unknown, ...args: unknown[]) {}
+  log(_message: string, _obj?: unknown, ..._args: unknown[]) {}
+
+  info(_message: string, _obj?: unknown, ..._args: unknown[]) {}
+
+  error(_message: string, _obj?: unknown, ..._args: unknown[]) {}
+
+  warn(_message: string, _obj?: unknown, ..._args: unknown[]) {}
+
+  debug(_message: string, _obj?: unknown, ..._args: unknown[]) {}
 }
 
 export const logger = new Logger(new PinoLogger(loggerOptions));
