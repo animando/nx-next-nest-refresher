@@ -4,22 +4,32 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { logger } from '@org/logger';
+import { Queue } from 'bullmq';
+import { InjectQueue } from '@nestjs/bullmq';
 
 @Injectable()
-export class ProductInventoryService implements OnModuleInit {
+export class ProductInventoryService {
   constructor(
     @Inject(PRODUCT_INVENTORY_CLIENT)
-    private readonly productInventoryClient: ClientProxy
+    private readonly productInventoryClient: ClientProxy,
+    @InjectQueue('queued-tasks') private tasksQueue: Queue<InventoryItem>
   ) {}
-
-  onModuleInit() {
-    logger.debug('product inventory service - init');
-  }
 
   async getInventory(): Promise<InventoryItem[]> {
     const response = await firstValueFrom(
       this.productInventoryClient.send('inventory.get', 'payload')
     );
-    return inventoryItemSchema.array().parse(response);
+
+    const inventoryItems = inventoryItemSchema.array().parse(response);
+    await this.updateInventoryItems(inventoryItems);
+
+    return inventoryItems;
+  }
+
+  private async updateInventoryItems(inventoryItems: InventoryItem[]) {
+    await Promise.all(
+      inventoryItems.map((item) => this.tasksQueue.add('updateInventory', item))
+    );
+    logger.info('sent n queue messages', { n: inventoryItems.length });
   }
 }

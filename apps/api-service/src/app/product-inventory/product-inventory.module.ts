@@ -6,6 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -30,6 +31,19 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
         },
       },
     ]),
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'queued-tasks',
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
   ],
   providers: [ProductInventoryService, ProductInventoryController],
 })
