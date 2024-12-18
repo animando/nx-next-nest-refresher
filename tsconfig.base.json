@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@org/inventory": ["libs/inventory/src/index.ts"],
       "@org/logger": ["libs/logger/src/index.ts"]
     }
   },

@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { logger } from '@org/logger';
-import { InventoryItem } from '@prisma/client';
+import { InventoryItem } from '@org/inventory';
 
 @Processor('queued-tasks')
 export class TaskConsumer extends WorkerHost {

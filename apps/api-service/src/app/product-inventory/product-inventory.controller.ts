@@ -1,6 +1,6 @@
+import { InventoryItem } from '../../../../../libs/inventory/src';
 import { ProductInventoryService } from './product-inventory.service';
 import { Query, Resolver } from '@nestjs/graphql';
-import { InventoryItem } from './product-inventory.schema';
 
 @Resolver('MyResolver')
 export class ProductInventoryController {
