@@ -6,10 +6,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { logger } from '@org/logger';
+import { TimingInterceptor } from './timing.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: logger });
   const port = process.env.PORT || 22200;
+  app.useGlobalInterceptors(new TimingInterceptor());
   app.enableCors();
   await app.listen(port);
   logger.info(`🚀 Application is running on: http://localhost:${port}`);
