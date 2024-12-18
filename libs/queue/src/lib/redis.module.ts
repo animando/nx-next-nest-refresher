@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RedisConnectionOptionsSymbol } from './redis.symbols';
+import { RedisConfigService } from './config/redis.config.service';
+import { RedisConfigModule } from './config/redis.config.module';
 
 export type RedisConnectionOptions = {
   host: string;
   port: number;
 };
 const redisConnectionOptionsFactory = (
-  configService: ConfigService
+  configService: RedisConfigService
 ): RedisConnectionOptions => ({
-  host: configService.getOrThrow<string>('REDIS_HOST'),
-  port: Number(configService.getOrThrow<string>('REDIS_PORT')),
+  host: configService.host,
+  port: configService.port,
 });
 
 @Module({
@@ -19,10 +20,10 @@ const redisConnectionOptionsFactory = (
     {
       provide: RedisConnectionOptionsSymbol,
       useFactory: redisConnectionOptionsFactory,
-      inject: [ConfigService],
+      inject: [RedisConfigService],
     },
   ],
   exports: [RedisConnectionOptionsSymbol],
-  imports: [ConfigModule.forRoot()],
+  imports: [RedisConfigModule],
 })
 export class RedisModule {}

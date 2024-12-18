@@ -3,11 +3,10 @@ import { ProductInventoryResolver } from './product-inventory.resolver';
 import { ProductInventoryService } from './product-inventory.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { QueueModule } from '@org/queue';
 import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
+import { RabbitModule } from '@org/rabbit';
 
 @Module({
   imports: [
@@ -17,21 +16,7 @@ import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
       typePaths: ['./**/*.graphql'],
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
-    ClientsModule.register([
-      {
-        name: PRODUCT_INVENTORY_CLIENT,
-        transport: Transport.RMQ,
-        options: {
-          urls: [
-            `amqp://${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}`,
-          ],
-          queue: process.env.RABBIT_QUEUE_NAME,
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
+    RabbitModule,
     QueueModule.register(INVENTORY_TASKS_QUEUE),
   ],
   providers: [ProductInventoryService, ProductInventoryResolver],

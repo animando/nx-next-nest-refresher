@@ -7,24 +7,26 @@ import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
 import { logger } from '@org/logger';
+import { RabbitConfigService } from '@org/rabbit';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      logger: logger,
-      transport: Transport.RMQ,
-      options: {
-        urls: [`amqp://${process.env.RABBIT_HOST}:${process.env.RABBIT_PORT}`],
-        queue: process.env.RABBIT_QUEUE_NAME,
-        queueOptions: {
-          durable: false,
-        },
-      },
-    }
-  );
+  const app = await NestFactory.create(AppModule, {
+    logger: logger,
+  });
 
-  await app.listen();
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.RMQ,
+    options: {
+      urls: [app.get(RabbitConfigService).url],
+      queue: process.env.RABBIT_QUEUE_NAME,
+      queueOptions: {
+        durable: false,
+      },
+    },
+  });
+
+  await app.startAllMicroservices();
+  await app.init();
 }
 
 bootstrap();

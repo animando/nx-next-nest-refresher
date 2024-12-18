@@ -1,9 +1,8 @@
 import { Inject } from '@nestjs/common';
-import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { Query, Resolver } from '@nestjs/graphql';
+import { RABBIT_CLIENT } from '@org/rabbit';
 
-export const InjectProductInventoryClient = () =>
-  Inject(PRODUCT_INVENTORY_CLIENT);
+export const InjectRabbitClient = () => Inject(RABBIT_CLIENT);
 
 export const InventoryQuery = () => Query('inventory');
 

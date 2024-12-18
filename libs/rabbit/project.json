@@ -1,0 +1,9 @@
+{
+  "name": "rabbit",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/rabbit/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project rabbit --web",
+  "targets": {}
+}

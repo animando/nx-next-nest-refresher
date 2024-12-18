@@ -8,20 +8,20 @@ import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { logger } from '@org/logger';
 import { Queue } from 'bullmq';
-import { InjectProductInventoryClient } from './decorators';
+import { InjectRabbitClient } from './decorators';
 
 @Injectable()
 export class ProductInventoryService {
   constructor(
-    @InjectProductInventoryClient()
-    private readonly productInventoryClient: ClientProxy,
+    @InjectRabbitClient()
+    private readonly rabbitClient: ClientProxy,
     @InjectInventoryTaskQueue()
     private inventoryTasksQueue: Queue<InventoryItem>
   ) {}
 
   async getInventory(): Promise<InventoryItem[]> {
     const response = await firstValueFrom(
-      this.productInventoryClient.send('inventory.get', 'payload')
+      this.rabbitClient.send('inventory.get', {})
     );
 
     const inventoryItems = inventoryItemSchema.array().parse(response);
