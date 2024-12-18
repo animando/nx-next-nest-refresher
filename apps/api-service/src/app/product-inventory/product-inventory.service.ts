@@ -1,18 +1,22 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { InventoryItem, inventoryItemSchema } from '@org/inventory';
+import { Injectable } from '@nestjs/common';
+import {
+  InjectInventoryTaskQueue,
+  InventoryItem,
+  inventoryItemSchema,
+} from '@org/inventory';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { logger } from '@org/logger';
 import { Queue } from 'bullmq';
-import { InjectQueue } from '@nestjs/bullmq';
+import { InjectProductInventoryClient } from './decorators';
 
 @Injectable()
 export class ProductInventoryService {
   constructor(
-    @Inject(PRODUCT_INVENTORY_CLIENT)
+    @InjectProductInventoryClient()
     private readonly productInventoryClient: ClientProxy,
-    @InjectQueue('queued-tasks') private tasksQueue: Queue<InventoryItem>
+    @InjectInventoryTaskQueue()
+    private inventoryTasksQueue: Queue<InventoryItem>
   ) {}
 
   async getInventory(): Promise<InventoryItem[]> {
@@ -28,7 +32,9 @@ export class ProductInventoryService {
 
   private async updateInventoryItems(inventoryItems: InventoryItem[]) {
     await Promise.all(
-      inventoryItems.map((item) => this.tasksQueue.add('updateInventory', item))
+      inventoryItems.map((item) =>
+        this.inventoryTasksQueue.add('updateInventory', item)
+      )
     );
     logger.info('sent n queue messages', { n: inventoryItems.length });
   }

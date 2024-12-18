@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@org/inventory": ["libs/inventory/src/index.ts"],
-      "@org/logger": ["libs/logger/src/index.ts"]
+      "@org/logger": ["libs/logger/src/index.ts"],
+      "@org/queue": ["libs/queue/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

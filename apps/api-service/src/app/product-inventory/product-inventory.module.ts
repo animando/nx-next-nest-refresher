@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ProductInventoryController } from './product-inventory.controller';
+import { ProductInventoryResolver } from './product-inventory.resolver';
 import { ProductInventoryService } from './product-inventory.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PRODUCT_INVENTORY_CLIENT } from './symbols';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { BullModule } from '@nestjs/bullmq';
+import { QueueModule } from '@org/queue';
+import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
 
 @Module({
   imports: [
@@ -31,20 +32,8 @@ import { BullModule } from '@nestjs/bullmq';
         },
       },
     ]),
-    BullModule.forRoot({
-      connection: {
-        host: 'localhost',
-        port: 6379,
-      },
-    }),
-    BullModule.registerQueue({
-      name: 'queued-tasks',
-      connection: {
-        host: 'localhost',
-        port: 6379,
-      },
-    }),
+    QueueModule.register(INVENTORY_TASKS_QUEUE),
   ],
-  providers: [ProductInventoryService, ProductInventoryController],
+  providers: [ProductInventoryService, ProductInventoryResolver],
 })
 export class ProductInventoryModule {}

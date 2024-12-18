@@ -1,12 +1,12 @@
-import { InventoryItem } from '../../../../../libs/inventory/src';
+import { InventoryItem } from '@org/inventory';
+import { InventoryQuery, InventoryResolver } from './decorators';
 import { ProductInventoryService } from './product-inventory.service';
-import { Query, Resolver } from '@nestjs/graphql';
 
-@Resolver('MyResolver')
-export class ProductInventoryController {
+@InventoryResolver()
+export class ProductInventoryResolver {
   constructor(private readonly productInventory: ProductInventoryService) {}
 
-  @Query('inventory')
+  @InventoryQuery()
   async getInventory(): Promise<InventoryItem[]> {
     const rs = await this.productInventory.getInventory();
     return rs;
