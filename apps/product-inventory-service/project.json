@@ -6,7 +6,7 @@
   "tags": [],
   "targets": {
     "prisma-generate": {
-      "command": "prisma generate --schema apps/product-inventory-service/prisma/schema.prisma"
+      "command": "prisma generate --schema apps/product-inventory-service/prisma/schema.prisma --no-hints"
     },
     "build": {
       "dependsOn": ["prisma-generate"],
