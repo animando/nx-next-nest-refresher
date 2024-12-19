@@ -6,7 +6,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { logger } from '@org/logger';
-import { TimingInterceptor } from './timing.interceptor';
+import { TimingInterceptor } from '@org/utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: logger });
