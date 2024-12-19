@@ -1,0 +1,17 @@
+{
+  "name": "bull-board-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["bull-board"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/bull-board-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["bull-board:build"]
+    }
+  }
+}

@@ -44,7 +44,8 @@
       },
       "exclude": [
         "apps/api-service-e2e/**/*",
-        "apps/product-inventory-service-e2e/**/*"
+        "apps/product-inventory-service-e2e/**/*",
+        "apps/bull-board-e2e/**/*"
       ]
     },
     {
