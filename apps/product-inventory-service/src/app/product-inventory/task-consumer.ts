@@ -8,9 +8,11 @@ export class TaskConsumer extends WorkerHost {
   async process(job: Job<InventoryItem, void>): Promise<void> {
     logger.info('processing job', { job });
     let progress = 0;
-    for (let i = 0; i < 200; i++) {
-      await new Promise((res) => setTimeout(res, 20));
-      progress += 1;
+    const increments = 20;
+    for (let i = 0; i < 20; i++) {
+      await new Promise((res) => setTimeout(res, 1000));
+      progress += 100 / increments;
+      logger.info('progress update', { progress });
       await job.updateProgress(progress);
     }
     logger.info('completed job', { jobId: job.id, a: 'b' });
