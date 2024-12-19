@@ -4,13 +4,23 @@ import { QueueModuleConfig } from './queue.module.config';
 import { BullModule } from '@nestjs/bullmq';
 import { RedisModule, RedisConnectionOptions } from './redis.module';
 import { RedisConnectionOptionsSymbol } from './redis.symbols';
+import { QueueConfigModule } from './config/queue.config.module';
+import { QueueConfigService } from './config/queue.config.service';
 
 const createBullMqModule = () =>
   BullModule.forRootAsync({
-    imports: [RedisModule],
-    inject: [RedisConnectionOptionsSymbol],
-    useFactory: (redisConfig: RedisConnectionOptions) => ({
+    imports: [RedisModule, QueueConfigModule],
+    inject: [RedisConnectionOptionsSymbol, QueueConfigService],
+    useFactory: (
+      redisConfig: RedisConnectionOptions,
+      queueConfig: QueueConfigService
+    ) => ({
       connection: redisConfig,
+      defaultJobOptions: {
+        attempts: queueConfig.defaultAttempts,
+        backoff: queueConfig.defaultBackoff,
+        removeOnComplete: queueConfig.defaultRemoveOnComplete,
+      },
     }),
   });
 

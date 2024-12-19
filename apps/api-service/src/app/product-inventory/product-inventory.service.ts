@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import {
   InjectInventoryTaskQueue,
   InventoryItem,
@@ -10,14 +10,20 @@ import { logger } from '@org/logger';
 import { Queue } from 'bullmq';
 import { InjectRabbitClient } from './decorators';
 
+type BulkJob = Parameters<Queue['addBulk']>[0][number];
+
 @Injectable()
-export class ProductInventoryService {
+export class ProductInventoryService implements OnModuleInit {
   constructor(
     @InjectRabbitClient()
     private readonly rabbitClient: ClientProxy,
     @InjectInventoryTaskQueue()
     private inventoryTasksQueue: Queue<InventoryItem>
   ) {}
+
+  onModuleInit() {
+    this.inventoryTasksQueue.setGlobalConcurrency(2);
+  }
 
   async getInventory(): Promise<InventoryItem[]> {
     const response = await firstValueFrom(
@@ -31,11 +37,11 @@ export class ProductInventoryService {
   }
 
   private async updateInventoryItems(inventoryItems: InventoryItem[]) {
-    await Promise.all(
-      inventoryItems.map((item) =>
-        this.inventoryTasksQueue.add('updateInventory', item)
-      )
-    );
+    const jobsData = inventoryItems.map<BulkJob>((item) => ({
+      name: 'updateInventory',
+      data: item,
+    }));
+    this.inventoryTasksQueue.addBulk(jobsData);
     logger.info('sent n queue messages', { n: inventoryItems.length });
   }
 }
