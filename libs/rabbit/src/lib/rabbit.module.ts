@@ -1,8 +1,25 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import {
+  ClientProvider,
+  ClientsModule,
+  Transport,
+} from '@nestjs/microservices';
 import { RABBIT_CLIENT } from './rabbit';
 import { RabbitConfigModule } from './config/rabbit.config.module';
 import { RabbitConfigService } from './config/rabbit.config.service';
+
+export const createRabbitConfig = (
+  configService: RabbitConfigService
+): ClientProvider => ({
+  transport: Transport.RMQ,
+  options: {
+    urls: [configService.url],
+    queue: configService.queueName,
+    queueOptions: {
+      durable: false,
+    },
+  },
+});
 
 const rabbitModule = ClientsModule.registerAsync({
   clients: [
@@ -10,16 +27,7 @@ const rabbitModule = ClientsModule.registerAsync({
       name: RABBIT_CLIENT,
       imports: [RabbitConfigModule],
       inject: [RabbitConfigService],
-      useFactory: (configService: RabbitConfigService) => ({
-        transport: Transport.RMQ,
-        options: {
-          urls: [configService.url],
-          queue: process.env.RABBIT_QUEUE_NAME,
-          queueOptions: {
-            durable: false,
-          },
-        },
-      }),
+      useFactory: createRabbitConfig,
     },
   ],
 });
