@@ -3,7 +3,7 @@ import { ProductInventoryRepository } from './product-inventory.repository';
 import { InventoryItem, PriceDetails } from '@org/inventory';
 import { InventoryItem as DbInventoryItem } from '@prisma/client';
 
-const mapPriceDetails = (item: DbInventoryItem): PriceDetails | undefined => {
+const mapPriceDetails = (item: DbInventoryItem): PriceDetails => {
   if (item.initialPrice !== null) {
     if (item.recurringPrice === null) {
       return {
@@ -22,12 +22,12 @@ const mapPriceDetails = (item: DbInventoryItem): PriceDetails | undefined => {
       };
     }
   }
-  return undefined;
+  throw new Error('invalid price data');
 };
 
 const mapToInventoryItem = (item: DbInventoryItem): InventoryItem => ({
   ...item,
-  currency: item.currency ?? undefined,
+  currency: item.currency,
   priceDetails: mapPriceDetails(item),
 });
 @Injectable()

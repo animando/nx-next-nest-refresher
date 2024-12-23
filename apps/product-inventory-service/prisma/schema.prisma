@@ -19,7 +19,7 @@ model InventoryItem {
   sku   String  @unique
   name  String
 
-  currency String?
+  currency String
   initialPrice Int?
   recurringPrice Int?
   subscriptionLength Int?

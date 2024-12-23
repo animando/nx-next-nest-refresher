@@ -19,8 +19,8 @@ export const inventoryItemSchema = z.object({
   id: z.number(),
   sku: z.string(),
   name: z.string(),
-  currency: z.string().optional(),
-  priceDetails: priceDetailsSchema.optional(),
+  currency: z.string(),
+  priceDetails: priceDetailsSchema,
 });
 
 export type InventoryItem = z.infer<typeof inventoryItemSchema>;
