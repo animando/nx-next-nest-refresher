@@ -8,6 +8,12 @@
     "prisma-generate": {
       "command": "prisma generate --schema apps/product-inventory-service/prisma/schema.prisma --no-hints"
     },
+    "prisma-migrate": {
+      "command": "prisma migrate dev"
+    },
+    "prisma-reset": {
+      "command": "prisma migrate reset --schema apps/product-inventory-service/prisma/schema.prisma"
+    },
     "build": {
       "dependsOn": ["prisma-generate"],
       "executor": "nx:run-commands",
