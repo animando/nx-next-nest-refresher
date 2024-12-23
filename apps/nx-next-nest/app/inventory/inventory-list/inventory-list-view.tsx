@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
+import { PriceDetails } from './price-details';
 
 type InventoryListViewProps = {
   items?: InventoryItem[];
@@ -24,13 +25,19 @@ export const InventoryListView = ({
       <Table aria-label="Inventory">
         <TableHeader>
           <TableColumn>Id</TableColumn>
-          <TableColumn>name</TableColumn>
+          <TableColumn>Name</TableColumn>
+          <TableColumn>Price</TableColumn>
+          <TableColumn>Currency</TableColumn>
         </TableHeader>
         <TableBody emptyContent={!items?.length}>
           {(items || []).map((item) => (
             <TableRow key={item.id}>
               <TableCell>{item.sku}</TableCell>
               <TableCell>{item.name}</TableCell>
+              <TableCell>{item.currency}</TableCell>
+              <TableCell>
+                <PriceDetails item={item} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -3,5 +3,17 @@ query inventory {
     id
     sku
     name
+    currency
+    priceDetails {
+      __typename
+      ... on OneOffPriceDetails {
+        price
+      }
+      ... on SubscriptionPriceDetails {
+        subscriptionDurationMonths
+        monthlyPrice
+        initialPrice
+      }
+    }
   }
 }
