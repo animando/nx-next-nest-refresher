@@ -15,6 +15,7 @@ import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
     PrismaService,
     ProductInventoryRepository,
     TaskConsumer,
+    
   ],
 })
 export class ProductInventoryModule {}

@@ -31,7 +31,7 @@ export class ProductInventoryService implements OnModuleInit {
     );
 
     const inventoryItems = inventoryItemSchema.array().parse(response);
-    await this.updateInventoryItems(inventoryItems);
+    // await this.updateInventoryItems(inventoryItems);
 
     return inventoryItems;
   }

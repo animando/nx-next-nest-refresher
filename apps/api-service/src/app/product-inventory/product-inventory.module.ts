@@ -7,6 +7,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { QueueModule } from '@org/queue';
 import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
 import { RabbitModule } from '@org/rabbit';
+import { PriceDetailsResolver } from './price-details.resolver';
 
 @Module({
   imports: [
@@ -19,6 +20,10 @@ import { RabbitModule } from '@org/rabbit';
     RabbitModule,
     QueueModule.register(INVENTORY_TASKS_QUEUE),
   ],
-  providers: [ProductInventoryService, ProductInventoryResolver],
+  providers: [
+    ProductInventoryService,
+    ProductInventoryResolver,
+    PriceDetailsResolver,
+  ],
 })
 export class ProductInventoryModule {}

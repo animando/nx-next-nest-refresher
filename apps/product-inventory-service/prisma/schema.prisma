@@ -13,8 +13,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model InventoryItem {
   id    Int     @default(autoincrement()) @id
   sku   String  @unique
   name  String
+
+  currency String?
+  initialPrice Int?
+  recurringPrice Int?
+  subscriptionLength Int?
 }

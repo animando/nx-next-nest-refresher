@@ -9,7 +9,7 @@
       "command": "prisma generate --schema apps/product-inventory-service/prisma/schema.prisma --no-hints"
     },
     "prisma-migrate": {
-      "command": "prisma migrate dev"
+      "command": "prisma migrate dev --schema apps/product-inventory-service/prisma/schema.prisma"
     },
     "prisma-reset": {
       "command": "prisma migrate reset --schema apps/product-inventory-service/prisma/schema.prisma"

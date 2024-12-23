@@ -1,7 +1,21 @@
+type SubscriptionPriceDetails {
+  subscriptionDurationMonths: Int!
+  initialPrice: Int!
+  monthlyPrice: Int!
+}
+
+type OneOffPriceDetails {
+  price: Int!
+}
+
+union PriceDetails = OneOffPriceDetails | SubscriptionPriceDetails
+
 type InventoryItem {
   id: Int!
   sku: String!
   name: String!
+  currency: String
+  priceDetails: PriceDetails
 }
 
 type Query {
