@@ -1,6 +1,5 @@
 'use client';
 
-import { InventoryItem } from '../generated/product-information';
 import {
   Button,
   Table,
@@ -11,6 +10,7 @@ import {
   TableRow,
 } from '@nextui-org/react';
 import { PriceDetails } from './price-details';
+import { InventoryItem } from '@org/inventory';
 
 type InventoryListViewProps = {
   items?: InventoryItem[];
@@ -26,8 +26,8 @@ export const InventoryListView = ({
         <TableHeader>
           <TableColumn>Id</TableColumn>
           <TableColumn>Name</TableColumn>
-          <TableColumn>Price</TableColumn>
           <TableColumn>Currency</TableColumn>
+          <TableColumn>Price</TableColumn>
         </TableHeader>
         <TableBody emptyContent={!items?.length}>
           {(items || []).map((item) => (

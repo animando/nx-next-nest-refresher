@@ -8,6 +8,30 @@ import {
 import { useCallback, useEffect } from 'react';
 import { InventoryListView } from './inventory-list-view';
 import { usePersistentStore } from '../../../src/store/store';
+import { InventoryItem } from '@org/inventory';
+
+const mapInventoryData = (
+  data: InventoryQuery['inventory']
+): InventoryItem[] => {
+  return data.map<InventoryItem>((item) => {
+    return {
+      ...item,
+      priceDetails:
+        item.priceDetails.__typename === 'OneOffPriceDetails'
+          ? {
+              type: 'oneoff',
+              price: item.priceDetails.price,
+            }
+          : {
+              type: 'subscription',
+              initialPrice: item.priceDetails.initialPrice,
+              monthlyPrice: item.priceDetails.monthlyPrice,
+              subscriptionDurationMonths:
+                item.priceDetails.subscriptionDurationMonths,
+            },
+    };
+  });
+};
 
 export const InventoryListContainer = () => {
   const [{ data }, revalidate] = useQuery<InventoryQuery>({
@@ -17,7 +41,7 @@ export const InventoryListContainer = () => {
 
   useEffect(() => {
     console.log('inventory changed');
-    setInventory(data?.inventory || []);
+    setInventory(mapInventoryData(data?.inventory || []));
   }, [data?.inventory, setInventory]);
 
   const onRefresh = useCallback(() => {

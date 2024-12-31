@@ -1,27 +1,24 @@
 'use client';
 
-import {
-  InventoryItem,
-  PriceDetails as PriceDetailsType,
-} from '../generated/product-information';
+import { InventoryItem } from '@org/inventory';
 
 type InventoryListItemProps = {
   item: InventoryItem;
 };
 
-const getItemPrice = (priceDetails: PriceDetailsType) => {
-  switch (priceDetails.__typename) {
-    case 'OneOffPriceDetails':
+const getItemPrice = (priceDetails: InventoryItem['priceDetails']) => {
+  switch (priceDetails.type) {
+    case 'oneoff':
       return priceDetails.price;
-    case 'SubscriptionPriceDetails':
+    case 'subscription':
       return priceDetails.initialPrice;
     default:
       return undefined;
   }
 };
-const getRecurringPrice = (priceDetails: PriceDetailsType) => {
-  switch (priceDetails.__typename) {
-    case 'SubscriptionPriceDetails':
+const getRecurringPrice = (priceDetails: InventoryItem['priceDetails']) => {
+  switch (priceDetails.type) {
+    case 'subscription':
       return {
         amount: priceDetails.monthlyPrice,
         duration: priceDetails.initialPrice,
