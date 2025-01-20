@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-fe
-          image: nx-next-nest:alpha
+          image: app-fe:alpha
           imagePullPolicy: Never
           env:
             - name: NEXT_PUBLIC_API_SERVICE_URL

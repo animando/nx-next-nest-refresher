@@ -26,7 +26,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx run nx-next-nest:serve-static',
+    command: 'npx nx run app-fe:serve-static',
     url: baseURL,
     reuseExistingServer: true,
     cwd: workspaceRoot,

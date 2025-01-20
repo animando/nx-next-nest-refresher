@@ -1,0 +1,10 @@
+{
+  "name": "app-fe-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/app-fe-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["app-fe"],
+  "// targets": "to see all targets run: nx show project app-fe-e2e --web",
+  "targets": {}
+}

@@ -15,19 +15,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx dev nx-next-nest
+npx nx dev app-fe
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build nx-next-nest
+npx nx build app-fe
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project nx-next-nest
+npx nx show project app-fe
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.

@@ -1,12 +1,12 @@
 const jestConfig = {
-  displayName: 'nx-next-nest',
+  displayName: 'app-fe',
   preset: '../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
     '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/next/babel'] }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/nx-next-nest',
+  coverageDirectory: '../../coverage/apps/app-fe',
 };
 
 export default jestConfig;
