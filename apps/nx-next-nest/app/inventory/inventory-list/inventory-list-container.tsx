@@ -36,6 +36,7 @@ const mapInventoryData = (
 export const InventoryListContainer = () => {
   const [{ data }, revalidate] = useQuery<InventoryQuery>({
     query: InventoryDocument,
+    requestPolicy: 'cache-and-network',
   });
   const { items, setInventory } = usePersistentStore();
 

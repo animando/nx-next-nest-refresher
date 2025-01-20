@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-fe
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: app-fe
+  template:
+    metadata:
+      labels:
+        app: app-fe
+    spec:
+      containers:
+        - name: app-fe
+          image: nx-next-nest:alpha
+          imagePullPolicy: Never
+          env:
+            - name: NEXT_PUBLIC_API_SERVICE_URL
+              value: 'http://api-service.test'
+          ports:
+            - containerPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-fe-ingress
+  namespace: kube-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: app-fe.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-fe
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-fe
+  namespace: kube-system
+spec:
+  type: ExternalName
+  externalName: app-fe.default.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-fe
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: app-fe

@@ -9,6 +9,20 @@
     "codegen": {
       "command": "graphql-codegen --config apps/nx-next-nest/codegen.yml"
     },
+    "docker-build": {
+      "executor": "@org/my-plugin:docker-build"
+    },
+    "kube-deploy": {
+      "executor": "@org/my-plugin:kube-deploy"
+    },
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/nx-next-nest"
+      }
+    },
     "serve": {
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
