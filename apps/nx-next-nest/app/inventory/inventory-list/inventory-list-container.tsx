@@ -8,7 +8,7 @@ import {
 import { useCallback, useEffect } from 'react';
 import { InventoryListView } from './inventory-list-view';
 import { usePersistentStore } from '../../../src/store/store';
-import { InventoryItem } from '@org/inventory';
+import { InventoryItem } from '@animando/inventory';
 
 const mapInventoryData = (
   data: InventoryQuery['inventory']

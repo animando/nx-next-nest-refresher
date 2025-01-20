@@ -1,8 +1,8 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { delay, Job } from 'bullmq';
-import { logger } from '@org/logger';
-import { INVENTORY_TASKS_QUEUE, InventoryItem } from '@org/inventory';
-import { QUEUE_WORKER_CONCURRENCY } from '@org/queue';
+import { logger } from '@animando/logger';
+import { INVENTORY_TASKS_QUEUE, InventoryItem } from '@animando/inventory';
+import { QUEUE_WORKER_CONCURRENCY } from '@animando/queue';
 import { z } from 'zod';
 
 const progressSchema = z.number().or(

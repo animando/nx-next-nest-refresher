@@ -6,7 +6,7 @@
   "// targets": "to see all targets run: nx show project redis --web",
   "targets": {
     "kube-deploy": {
-      "executor": "@org/my-plugin:kube-deploy",
+      "executor": "@animando/my-plugin:kube-deploy",
       "options": {
         "deploymentFile": "infra/redis/deploy-manifest/deployment.yml"
       }

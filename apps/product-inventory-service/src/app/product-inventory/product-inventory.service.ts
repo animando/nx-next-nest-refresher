@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProductInventoryRepository } from './product-inventory.repository';
-import { InventoryItem, PriceDetails } from '@org/inventory';
+import { InventoryItem, PriceDetails } from '@animando/inventory';
 import { InventoryItem as DbInventoryItem } from '@prisma/client';
 
 const mapPriceDetails = (item: DbInventoryItem): PriceDetails => {

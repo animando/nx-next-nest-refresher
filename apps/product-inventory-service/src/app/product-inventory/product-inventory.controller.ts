@@ -1,7 +1,7 @@
 import { MessagePattern } from '@nestjs/microservices';
 import { ProductInventoryService } from './product-inventory.service';
 import { Controller } from '@nestjs/common';
-import { logger } from '@org/logger';
+import { logger } from '@animando/logger';
 
 @Controller()
 export class ProductInventoryController {

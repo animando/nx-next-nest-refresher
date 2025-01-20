@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@nextui-org/react';
 import { PriceDetails } from './price-details';
-import { InventoryItem } from '@org/inventory';
+import { InventoryItem } from '@animando/inventory';
 
 type InventoryListViewProps = {
   items?: InventoryItem[];

@@ -1,4 +1,4 @@
-import { PriceDetails } from '@org/inventory';
+import { PriceDetails } from '@animando/inventory';
 import { ProductInventoryService } from './product-inventory.service';
 import { ResolveField, Resolver } from '@nestjs/graphql';
 

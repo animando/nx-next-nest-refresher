@@ -1,5 +1,5 @@
 {
-  "name": "@org/redis",
+  "name": "@animando/redis",
   "version": "0.0.1",
   "dependencies": {},
   "private": true

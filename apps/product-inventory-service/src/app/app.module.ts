@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ProductInventoryModule } from './product-inventory/product-inventory.module';
-import { LoggerModule } from '@org/logger';
-import { RabbitConfigModule } from '@org/rabbit';
+import { LoggerModule } from '@animando/logger';
+import { RabbitConfigModule } from '@animando/rabbit';
 @Module({
   imports: [ProductInventoryModule, LoggerModule, RabbitConfigModule],
 })

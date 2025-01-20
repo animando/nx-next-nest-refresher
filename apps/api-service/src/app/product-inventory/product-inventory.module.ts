@@ -4,9 +4,9 @@ import { ProductInventoryService } from './product-inventory.service';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { QueueModule } from '@org/queue';
-import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
-import { RabbitModule } from '@org/rabbit';
+import { QueueModule } from '@animando/queue';
+import { INVENTORY_TASKS_QUEUE } from '@animando/inventory';
+import { RabbitModule } from '@animando/rabbit';
 import { PriceDetailsResolver } from './price-details.resolver';
 
 @Module({

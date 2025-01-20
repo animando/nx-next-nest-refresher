@@ -1,4 +1,4 @@
-import { InventoryItem } from '@org/inventory';
+import { InventoryItem } from '@animando/inventory';
 import { InventoryQuery, InventoryResolver } from './decorators';
 import { ProductInventoryService } from './product-inventory.service';
 

@@ -6,8 +6,8 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
-import { logger } from '@org/logger';
-import { RabbitConfigService, createRabbitConfig } from '@org/rabbit';
+import { logger } from '@animando/logger';
+import { RabbitConfigService, createRabbitConfig } from '@animando/rabbit';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {

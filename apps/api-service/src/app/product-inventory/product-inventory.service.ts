@@ -3,10 +3,10 @@ import {
   InjectInventoryTaskQueue,
   InventoryItem,
   inventoryItemSchema,
-} from '@org/inventory';
+} from '@animando/inventory';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { logger } from '@org/logger';
+import { logger } from '@animando/logger';
 import { Queue } from 'bullmq';
 import { InjectRabbitClient } from './decorators';
 

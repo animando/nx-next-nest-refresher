@@ -6,10 +6,10 @@
   "tags": [],
   "targets": {
     "docker-build": {
-      "executor": "@org/my-plugin:docker-build"
+      "executor": "@animando/my-plugin:docker-build"
     },
     "kube-deploy": {
-      "executor": "@org/my-plugin:kube-deploy"
+      "executor": "@animando/my-plugin:kube-deploy"
     },
     "build": {
       "executor": "nx:run-commands",

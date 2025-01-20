@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { BullBoardModule } from '@bull-board/nestjs';
 import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
-import { QueueModule } from '@org/queue';
-import { INVENTORY_TASKS_QUEUE } from '@org/inventory';
+import { QueueModule } from '@animando/queue';
+import { INVENTORY_TASKS_QUEUE } from '@animando/inventory';
 
 @Module({
   imports: [

@@ -16,13 +16,13 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
-      "@org/inventory": ["libs/inventory/src/index.ts"],
-      "@org/logger": ["libs/logger/src/index.ts"],
-      "@org/my-plugin": ["tools/my-plugin/src/index.ts"],
-      "@org/queue": ["libs/queue/src/index.ts"],
-      "@org/rabbit": ["libs/rabbit/src/index.ts"],
-      "@org/redis": ["infra/redis/src/index.ts"],
-      "@org/utils": ["libs/utils/src/index.ts"]
+      "@animando/inventory": ["libs/inventory/src/index.ts"],
+      "@animando/logger": ["libs/logger/src/index.ts"],
+      "@animando/my-plugin": ["tools/my-plugin/src/index.ts"],
+      "@animando/queue": ["libs/queue/src/index.ts"],
+      "@animando/rabbit": ["libs/rabbit/src/index.ts"],
+      "@animando/redis": ["infra/redis/src/index.ts"],
+      "@animando/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

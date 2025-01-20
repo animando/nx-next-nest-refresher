@@ -1,6 +1,6 @@
 import { create, StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { InventoryItem } from '@org/inventory';
+import { InventoryItem } from '@animando/inventory';
 
 type CounterSlice = {
   counter: number;

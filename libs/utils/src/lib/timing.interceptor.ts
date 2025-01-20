@@ -1,5 +1,5 @@
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
-import { logger } from '@org/logger';
+import { logger } from '@animando/logger';
 import { tap } from 'rxjs';
 
 export class TimingInterceptor implements NestInterceptor {

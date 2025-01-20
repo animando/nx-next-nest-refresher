@@ -1,6 +1,6 @@
 'use client';
 
-import { InventoryItem } from '@org/inventory';
+import { InventoryItem } from '@animando/inventory';
 
 type InventoryListItemProps = {
   item: InventoryItem;

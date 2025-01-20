@@ -5,8 +5,8 @@
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { logger } from '@org/logger';
-import { TimingInterceptor } from '@org/utils';
+import { logger } from '@animando/logger';
+import { TimingInterceptor } from '@animando/utils';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: logger });
