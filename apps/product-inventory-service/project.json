@@ -14,6 +14,15 @@
     "prisma-reset": {
       "command": "prisma migrate reset --schema apps/product-inventory-service/prisma/schema.prisma"
     },
+    "docker-build": {
+      "executor": "@org/my-plugin:docker-build",
+      "options": {
+        "targets": "service,db-migrate"
+      }
+    },
+    "kube-deploy": {
+      "executor": "@org/my-plugin:kube-deploy"
+    },
     "build": {
       "dependsOn": ["prisma-generate"],
       "executor": "nx:run-commands",

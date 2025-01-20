@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "target": "es2015",
     "module": "esnext",
     "lib": ["es2020", "dom"],
@@ -18,8 +18,10 @@
     "paths": {
       "@org/inventory": ["libs/inventory/src/index.ts"],
       "@org/logger": ["libs/logger/src/index.ts"],
+      "@org/my-plugin": ["tools/my-plugin/src/index.ts"],
       "@org/queue": ["libs/queue/src/index.ts"],
       "@org/rabbit": ["libs/rabbit/src/index.ts"],
+      "@org/redis": ["infra/redis/src/index.ts"],
       "@org/utils": ["libs/utils/src/index.ts"]
     }
   },

@@ -14,8 +14,17 @@
       "configurations": {
         "development": {
           "args": ["node-env=development"]
+        },
+        "production": {
+          "externalDependencies": "none"
         }
       }
+    },
+    "docker-build": {
+      "executor": "@org/my-plugin:docker-build"
+    },
+    "kube-deploy": {
+      "executor": "@org/my-plugin:kube-deploy"
     },
     "serve": {
       "executor": "@nx/js:node",

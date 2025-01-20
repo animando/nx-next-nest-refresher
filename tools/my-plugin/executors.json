@@ -1,0 +1,24 @@
+{
+  "executors": {
+    "echo": {
+      "implementation": "./src/executors/echo/echo",
+      "schema": "./src/executors/echo/schema.json",
+      "description": "echo executor"
+    },
+    "echo2": {
+      "implementation": "./src/executors/echo2",
+      "schema": "./src/executors/schema.json",
+      "description": "echo2 executor"
+    },
+    "docker-build": {
+      "implementation": "./src/executors/docker-build/docker-build",
+      "schema": "./src/executors/docker-build/schema.json",
+      "description": "docker-build executor"
+    },
+    "kube-deploy": {
+      "implementation": "./src/executors/kube-deploy/kube-deploy",
+      "schema": "./src/executors/kube-deploy/schema.json",
+      "description": "kube-deploy executor"
+    }
+  }
+}

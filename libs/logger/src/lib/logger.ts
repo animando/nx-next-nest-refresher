@@ -2,21 +2,24 @@ import { Params, PinoLogger } from 'nestjs-pino';
 import { LoggerService } from '@nestjs/common';
 
 export const loggerOptions: Params = {
-  pinoHttp: {
-    level: 'debug',
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        singleLine: true,
-        colorize: true,
-        colorizeObjects: true,
-        ignore: 'pid,hostname',
-      },
-    },
-    quietReqLogger: true,
-    quietResLogger: true,
-    autoLogging: false,
-  },
+  pinoHttp:
+    process.env['NODE_ENV'] === 'development'
+      ? {
+          level: 'debug',
+          transport: {
+            target: 'pino-pretty',
+            options: {
+              singleLine: true,
+              colorize: true,
+              colorizeObjects: true,
+              ignore: 'pid,hostname',
+            },
+          },
+          quietReqLogger: true,
+          quietResLogger: true,
+          autoLogging: false,
+        }
+      : {},
 };
 
 type LogLevel = 'info' | 'debug' | 'warn' | 'error' | 'fatal' | 'trace';

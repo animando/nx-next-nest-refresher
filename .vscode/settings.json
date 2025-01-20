@@ -6,11 +6,6 @@
   },
   "editor.formatOnSave": true,
   "typescript.preferences.importModuleSpecifier": "relative",
-  "files.exclude": {
-    "**/.next": true,
-    ".nx": true,
-    "apps/nx-next-nest/out": true,
-    "dist": true,
-    "node_modules": true
-  }
+  "files.exclude": {},
+  "eslint.validate": ["json"]
 }

@@ -1,0 +1,78 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bull-board
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: bull-board
+  template:
+    metadata:
+      labels:
+        app: bull-board
+    spec:
+      containers:
+        - name: bull-board
+          image: bull-board:alpha
+          imagePullPolicy: Never
+          env:
+            - name: BULL_PORT
+              value: '8000'
+            - name: REDIS_HOST
+              value: 'redis'
+            - name: REDIS_PORT
+              value: '6379'
+            - name: QUEUE_DEFAULT_ATTEMPTS
+              value: '5'
+            - name: QUEUE_DEFAULT_BACKOFF
+              value: '{"type": "exponential", "delay": 1000}'
+            - name: QUEUE_DEFAULT_REMOVE_ON_COMPLETE
+              value: '{"age": 60000, "count": 200}'
+          ports:
+            - containerPort: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bull-board-ingress
+  namespace: kube-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: bull-board.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bull-board
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bull-board
+  namespace: kube-system
+spec:
+  type: ExternalName
+  externalName: bull-board.default.svc.cluster.local
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bull-board
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: bull-board
