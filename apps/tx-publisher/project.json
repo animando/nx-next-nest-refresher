@@ -1,0 +1,44 @@
+{
+  "name": "tx-publisher",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/tx-publisher/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": ["node-env=production"]
+      },
+      "configurations": {
+        "development": {
+          "args": ["node-env=development"]
+        }
+      }
+    },
+    "docker-build": {
+      "executor": "@animando/my-plugin:docker-build"
+    },
+    "kube-deploy": {
+      "executor": "@animando/my-plugin:kube-deploy"
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "tx-publisher:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "tx-publisher:build:development"
+        },
+        "production": {
+          "buildTarget": "tx-publisher:build:production"
+        }
+      }
+    }
+  }
+}

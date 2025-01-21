@@ -50,9 +50,38 @@ spec:
           image: rabbitmq:3-management
           ports:
             - containerPort: 5672
+            - containerPort: 15672
           volumeMounts:
             - mountPath: '/var/lib/rabbitmq'
               name: pv-storage
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rabbit-mgmt-ingress
+  namespace: kube-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: rabbitmq.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: rabbit-sys-svc
+                port:
+                  number: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-sys-svc
+  namespace: kube-system
+spec:
+  type: ExternalName
+  externalName: rabbit-mgmt.default.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service
@@ -63,3 +92,17 @@ spec:
     app: rabbit
   ports:
     - port: 5672
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-mgmt
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 15672
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: rabbit

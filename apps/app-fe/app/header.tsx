@@ -17,6 +17,10 @@ const pages: Page[] = [
     name: 'Server Actions',
     route: '/server-action',
   },
+  {
+    name: 'Websockets',
+    route: '/websockets',
+  },
 ];
 
 const NavLink = ({ page }: { page: Page }) => (

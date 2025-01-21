@@ -1,0 +1,17 @@
+{
+  "name": "tx-publisher-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "implicitDependencies": ["tx-publisher"],
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/tx-publisher-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["tx-publisher:build"]
+    }
+  }
+}

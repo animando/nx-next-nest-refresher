@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ProductInventoryModule } from './product-inventory/product-inventory.module';
 import { LoggerModule } from '@animando/logger';
-import { RabbitConfigModule } from '@animando/rabbit';
+// import { RabbitConfigModule } from '@animando/rabbit';
 @Module({
-  imports: [ProductInventoryModule, LoggerModule, RabbitConfigModule],
+  imports: [ProductInventoryModule, LoggerModule],
 })
 export class AppModule {}

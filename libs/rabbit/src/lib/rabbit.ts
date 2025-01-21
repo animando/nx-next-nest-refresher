@@ -1,4 +1,7 @@
 export function rabbit(): string {
   return 'rabbit';
 }
-export const RABBIT_CLIENT = Symbol('RABBIT_CLIENT');
+
+export const TOPIC_EXCHANGE_NAME = 'animando.topic-exchange';
+export const FANOUT_EXCHANGE_NAME = 'animando.fanout-exchange';
+export const DIRECT_EXCHANGE_NAME = 'animando.direct-exchange';

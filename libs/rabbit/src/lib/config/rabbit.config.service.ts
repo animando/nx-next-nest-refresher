@@ -16,8 +16,4 @@ export class RabbitConfigService {
   public get url() {
     return `amqp://${this.host}:${this.port}`;
   }
-
-  public get queueName() {
-    return this.configService.getOrThrow('RABBIT_QUEUE_NAME');
-  }
 }

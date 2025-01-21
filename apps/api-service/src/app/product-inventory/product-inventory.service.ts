@@ -1,22 +1,21 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import {
   InjectInventoryTaskQueue,
   InventoryItem,
   inventoryItemSchema,
 } from '@animando/inventory';
-import { ClientProxy } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 import { logger } from '@animando/logger';
 import { Queue } from 'bullmq';
-import { InjectRabbitClient } from './decorators';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
 
 type BulkJob = Parameters<Queue['addBulk']>[0][number];
 
 @Injectable()
 export class ProductInventoryService implements OnModuleInit {
   constructor(
-    @InjectRabbitClient()
-    private readonly rabbitClient: ClientProxy,
+    @Inject(AmqpConnection)
+    private readonly rabbitClient: AmqpConnection,
     @InjectInventoryTaskQueue()
     private inventoryTasksQueue: Queue<InventoryItem>
   ) {}
@@ -26,12 +25,12 @@ export class ProductInventoryService implements OnModuleInit {
   }
 
   async getInventory(): Promise<InventoryItem[]> {
-    const response = await firstValueFrom(
-      this.rabbitClient.send('inventory.get', {})
-    );
+    const response = await this.rabbitClient.request<InventoryItem[]>({
+      exchange: TOPIC_EXCHANGE_NAME,
+      routingKey: 'inventory.get',
+    });
 
     const inventoryItems = inventoryItemSchema.array().parse(response);
-    // await this.updateInventoryItems(inventoryItems);
 
     return inventoryItems;
   }

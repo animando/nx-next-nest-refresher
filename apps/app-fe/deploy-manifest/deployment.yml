@@ -20,7 +20,7 @@ spec:
           imagePullPolicy: Never
           env:
             - name: NEXT_PUBLIC_API_SERVICE_URL
-              value: 'http://api-service.test'
+              value: 'http://minikube:32212'
           ports:
             - containerPort: 3000
 ---

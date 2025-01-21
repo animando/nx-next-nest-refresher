@@ -1,35 +1,37 @@
 import { Module } from '@nestjs/common';
-import {
-  ClientProvider,
-  ClientsModule,
-  Transport,
-} from '@nestjs/microservices';
-import { RABBIT_CLIENT } from './rabbit';
 import { RabbitConfigModule } from './config/rabbit.config.module';
 import { RabbitConfigService } from './config/rabbit.config.service';
+import { RabbitMQConfig, RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import {
+  DIRECT_EXCHANGE_NAME,
+  FANOUT_EXCHANGE_NAME,
+  TOPIC_EXCHANGE_NAME,
+} from './rabbit';
 
-export const createRabbitConfig = (
-  configService: RabbitConfigService
-): ClientProvider => ({
-  transport: Transport.RMQ,
-  options: {
-    urls: [configService.url],
-    queue: configService.queueName,
-    queueOptions: {
-      durable: false,
-    },
-  },
-});
-
-const rabbitModule = ClientsModule.registerAsync({
-  clients: [
+const createRabbitConfig = (config: RabbitConfigService): RabbitMQConfig => ({
+  exchanges: [
     {
-      name: RABBIT_CLIENT,
-      imports: [RabbitConfigModule],
-      inject: [RabbitConfigService],
-      useFactory: createRabbitConfig,
+      name: TOPIC_EXCHANGE_NAME,
+      type: 'topic',
+    },
+    {
+      name: FANOUT_EXCHANGE_NAME,
+      type: 'fanout',
+    },
+    {
+      name: DIRECT_EXCHANGE_NAME,
+      type: 'direct',
     },
   ],
+  uri: config.url,
+  connectionInitOptions: { wait: false },
+  enableControllerDiscovery: true,
+});
+
+const rabbitModule = RabbitMQModule.forRootAsync(RabbitMQModule, {
+  imports: [RabbitConfigModule],
+  inject: [RabbitConfigService],
+  useFactory: createRabbitConfig,
 });
 
 @Module({

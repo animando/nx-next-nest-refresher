@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: product-inventory-service
-          image: product-inventory-service:alpha
+          image: product-inventory-service-service:alpha
           imagePullPolicy: Never
           env:
             - name: PORT
@@ -27,8 +27,6 @@ spec:
               value: 'rabbit'
             - name: RABBIT_PORT
               value: '5672'
-            - name: RABBIT_QUEUE_NAME
-              value: 'inventory_queue'
             - name: REDIS_HOST
               value: 'redis'
             - name: REDIS_PORT

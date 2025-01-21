@@ -1,9 +1,11 @@
 import { cacheExchange, createClient, fetchExchange } from '@urql/core';
 import { registerUrql } from '@urql/next/rsc';
 
+const url =
+  process.env['NEXT_PUBLIC_API_SERVICE_URL'] || 'http://localhost:22200';
 const makeClient = () => {
   return createClient({
-    url: 'http://localhost:22200/graphql',
+    url: `${url}/graphql`,
     exchanges: [cacheExchange, fetchExchange],
   });
 };
