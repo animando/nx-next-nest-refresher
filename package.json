@@ -32,6 +32,7 @@
     "axios": "^1.7.9",
     "bullmq": "^5.34.2",
     "copy-webpack-plugin": "^12.0.2",
+    "date-fns": "^4.1.0",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
     "nest-winston": "^1.9.7",

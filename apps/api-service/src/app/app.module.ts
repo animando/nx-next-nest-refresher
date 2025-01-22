@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ProductInventoryModule } from './product-inventory/product-inventory.module';
 import { LoggerModule } from '@animando/logger';
 import { WebsocketsModule } from './websockets/websockets.module';
+import { GraphQLModule } from './graphql/graphql.module';
 
 @Module({
-  imports: [ProductInventoryModule, LoggerModule, WebsocketsModule],
+  imports: [GraphQLModule, LoggerModule, WebsocketsModule],
 })
 export class AppModule {}

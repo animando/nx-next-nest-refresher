@@ -29,3 +29,9 @@
 `docker build --target service -t product-inventory-service:alpha -f apps/product-inventory-service/Dockerfile .`
 
 `docker build --target db-migrate -t product-inventory-service-db-migrate:alpha -f apps/product-inventory-service/Dockerfile .`
+
+## Create database and user
+
+CREATE ROLE <U> WITH LOGIN CREATEDB;
+\password <U>
+create database <D> owner <U>;

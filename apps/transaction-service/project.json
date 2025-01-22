@@ -1,0 +1,56 @@
+{
+  "name": "transaction-service",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/transaction-service/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "prisma-generate": {
+      "command": "prisma generate --schema apps/transaction-service/prisma/schema.prisma --no-hints"
+    },
+    "prisma-migrate": {
+      "command": "prisma migrate dev --schema apps/transaction-service/prisma/schema.prisma"
+    },
+    "prisma-reset": {
+      "command": "prisma migrate reset --schema apps/transaction-service/prisma/schema.prisma"
+    },
+    "docker-build": {
+      "executor": "@animando/my-plugin:docker-build",
+      "options": {
+        "targets": "service,db-migrate"
+      }
+    },
+    "kube-deploy": {
+      "executor": "@animando/my-plugin:kube-deploy"
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build",
+        "args": ["node-env=production"]
+      },
+      "configurations": {
+        "development": {
+          "args": ["node-env=development"]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "transaction-service:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "transaction-service:build:development"
+        },
+        "production": {
+          "buildTarget": "transaction-service:build:production"
+        }
+      }
+    }
+  }
+}

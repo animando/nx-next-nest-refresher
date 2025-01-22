@@ -1,18 +1,22 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
-import { WEBSOCKETS_EXCHANGE_NAME } from '@animando/rabbit';
-import { Transaction } from '@animando/transaction';
+import {
+  TOPIC_EXCHANGE_NAME,
+  WEBSOCKETS_EXCHANGE_NAME,
+} from '@animando/rabbit';
+import { TransactionToSave } from '@animando/transaction';
 
 @Injectable()
 export class TxPublishingService {
-  amqpConnection: AmqpConnection;
+  constructor(@Inject(AmqpConnection) private amqpConnection: AmqpConnection) {}
 
-  constructor(@Inject(AmqpConnection) amqpConnection: AmqpConnection) {
-    this.amqpConnection = amqpConnection;
-  }
-
-  async publishTransaction(transaction: Transaction) {
-    return this.amqpConnection?.publish(
+  async publishTransaction(transaction: TransactionToSave) {
+    await this.amqpConnection.publish(
+      TOPIC_EXCHANGE_NAME,
+      'transaction.new',
+      transaction
+    );
+    await this.amqpConnection.publish(
       WEBSOCKETS_EXCHANGE_NAME,
       'ws.publish.newTransaction',
       transaction,

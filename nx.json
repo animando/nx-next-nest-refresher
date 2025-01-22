@@ -46,7 +46,8 @@
         "apps/api-service-e2e/**/*",
         "apps/product-inventory-service-e2e/**/*",
         "apps/bull-board-e2e/**/*",
-        "apps/tx-publisher-e2e/**/*"
+        "apps/tx-publisher-e2e/**/*",
+        "apps/transaction-service-e2e/**/*"
       ]
     },
     {

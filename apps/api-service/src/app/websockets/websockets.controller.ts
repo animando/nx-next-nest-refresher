@@ -19,10 +19,10 @@ export class WebsocketsController {
   @RabbitSubscribe({
     exchange: WEBSOCKETS_EXCHANGE_NAME,
     routingKey: 'ws.publish.*',
-    queue: 'api-service',
+    queue: 'api-service-ws-publish',
     queueOptions: {
-      durable: true,
-      autoDelete: false,
+      durable: false,
+      autoDelete: true,
     },
   })
   publishWebsocketMessage(

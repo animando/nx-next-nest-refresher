@@ -1,0 +1,30 @@
+type Currency {
+  code: String!
+}
+
+type Transaction {
+  id: String!
+  createdAt: String!
+  updatedAt: String!
+  transactionDate: String!
+  trxId: String!
+  code: String!
+  transactionType: String!
+  transactionDescription: String!
+  currency: Currency!
+  amount: Int!
+  routingNumber: String!
+}
+
+type PagingMeta {
+  nextToken: String
+  count: Int!
+}
+type PagedTransactions {
+  data: [Transaction!]!
+  meta: PagingMeta!
+}
+
+type Query {
+  transactions(limit: Int, nextToken: String): PagedTransactions
+}

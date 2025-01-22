@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("PRODUCT_INVENTORY_DATABASE_URL")
 }
 
 model InventoryItem {

@@ -86,6 +86,9 @@ dependencies:
   copy-webpack-plugin:
     specifier: ^12.0.2
     version: 12.0.2(webpack@5.97.1)
+  date-fns:
+    specifier: ^4.1.0
+    version: 4.1.0
   graphql:
     specifier: ^16.9.0
     version: 16.9.0
@@ -11320,6 +11323,10 @@ packages:
   /dataloader@2.2.3:
     resolution: {integrity: sha512-y2krtASINtPFS1rSDjacrFgn1dcUuoREVabwlOGOe4SdxenREqwjwjElAdwvbGM7kgZz9a3KVicWR7vcz8rnzA==}
     dev: true
+
+  /date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
+    dev: false
 
   /date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}

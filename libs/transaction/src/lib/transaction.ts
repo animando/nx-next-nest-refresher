@@ -5,10 +5,18 @@ export type Currency = {
 };
 export type Transaction = {
   id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  transactionDate: Date;
+  trxId: string;
   code: string;
   transactionType: string;
   transactionDescription: string;
   currency: Currency;
-  amount: string;
+  amount: number;
   routingNumber: string;
 };
+export type TransactionToSave = Omit<
+  Transaction,
+  'id' | 'createdAt' | 'updatedAt'
+>;

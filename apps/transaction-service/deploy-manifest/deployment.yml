@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-service
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels:
+      app: transaction-service
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+    spec:
+      containers:
+        - name: transaction-service
+          image: transaction-service-service:alpha
+          imagePullPolicy: Never
+          env:
+            - name: PORT
+              value: '8000'
+            - name: TRANSACTIONS_DATABASE_URL
+              value: 'postgresql://postgres:example@postgres:5432/postgres?schema=public'
+            - name: RABBIT_HOST
+              value: 'rabbit'
+            - name: RABBIT_PORT
+              value: '5672'
+            - name: REDIS_HOST
+              value: 'redis'.env
+            - name: REDIS_PORT
+              value: '6379'
+            - name: QUEUE_DEFAULT_ATTEMPTS
+              value: '5'
+            - name: QUEUE_DEFAULT_BACKOFF
+              value: '{"type": "exponential", "delay": 1000}'
+            - name: QUEUE_DEFAULT_REMOVE_ON_COMPLETE
+              value: '{"age": 60000, "count": 200}'
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service
+spec:
+  selector:
+    app: transaction-service
+  ports:
+    - port: 8000

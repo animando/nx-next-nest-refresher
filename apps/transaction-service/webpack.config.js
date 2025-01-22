@@ -3,7 +3,7 @@ const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/apps/api-service'),
+    path: join(__dirname, '../../dist/apps/transaction-service'),
   },
   plugins: [
     new NxAppWebpackPlugin({
@@ -11,11 +11,7 @@ module.exports = {
       compiler: 'tsc',
       main: './src/main.ts',
       tsConfig: './tsconfig.app.json',
-      assets: [
-        './src/assets',
-        './src/app/graphql/product-inventory/product-inventory.graphql',
-        './src/app/graphql/transactions/transactions.graphql',
-      ],
+      assets: ['./src/assets'],
       optimization: false,
       outputHashing: 'none',
       generatePackageJson: true,

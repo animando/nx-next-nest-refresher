@@ -13,7 +13,7 @@ export class ProductInventoryController {
     routingKey: 'inventory.get',
     queue: 'rpc-queue',
     queueOptions: {
-      durable: true,
+      durable: false,
       autoDelete: false,
     },
   })
