@@ -30,12 +30,9 @@ export const getSkipFromMeta = (meta?: PagedRequestMeta): number => {
 export const getCursorFromMeta = (
   meta?: PagedRequestMeta
 ): string | undefined => {
-  logger.info('2.1', { meta });
   const cursor = meta?.nextToken
     ? (JSON.parse(atob(meta.nextToken)) as CursorNextTokenV1).cursor
     : undefined;
-  logger.info('2.2');
-  logger.info('cursor', { cursor });
   return cursor || undefined;
 };
 

@@ -26,8 +26,12 @@ type PagedTransactions {
 }
 
 type Query {
-  transactions(limit: Int, nextToken: String): PagedTransactions
+  transactions(limit: Int, nextToken: String, search: String): PagedTransactions
 }
 type Query {
-  latestTransactions(limit: Int, nextToken: String): PagedTransactions
+  latestTransactions(
+    limit: Int
+    nextToken: String
+    search: String
+  ): PagedTransactions
 }

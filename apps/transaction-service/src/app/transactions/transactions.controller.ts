@@ -9,7 +9,7 @@ import {
   RabbitSubscribe,
 } from '@golevelup/nestjs-rabbitmq';
 import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
-import { TransactionToSave } from '@animando/transaction';
+import { TransactionSearch, TransactionToSave } from '@animando/transaction';
 import { Message } from 'amqplib';
 import { PagedRequestMeta } from '@animando/utils';
 
@@ -48,21 +48,18 @@ export class TransactionsController {
   })
   getLatestTransactions(
     @RabbitPayload()
-    request: { meta?: PagedRequestMeta },
-    @RabbitRequest() message: Message
+    request: {
+      meta?: PagedRequestMeta;
+      search?: TransactionSearch;
+    }
   ) {
-    logger.info('get latest transactions xx', {
-      request,
-      isUnde: request === undefined,
-    });
-    const {
-      fields: { deliveryTag },
-    } = message;
     try {
-      return this.transactionsService.getLatestTransactions(request?.meta);
-    } catch (err: any) {
-      logger.info('caught error', { deliveryTag });
-      logger.error(err.message);
+      return this.transactionsService.getLatestTransactions(
+        request.meta,
+        request.search
+      );
+    } catch (err) {
+      logger.error('Error fetching transactions', err);
       return new Nack(false);
     }
   }

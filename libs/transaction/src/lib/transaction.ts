@@ -20,3 +20,7 @@ export type TransactionToSave = Omit<
   Transaction,
   'id' | 'createdAt' | 'updatedAt'
 >;
+export type TransactionSearch = {
+  transactionType: 'withdrawal' | 'payment' | 'invoice' | 'deposit';
+  transactionDescription: string;
+};

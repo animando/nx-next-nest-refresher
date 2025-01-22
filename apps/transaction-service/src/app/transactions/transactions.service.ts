@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { TransactionsRepository } from './transactions.repository';
-import { Transaction, TransactionToSave } from '@animando/transaction';
+import {
+  Transaction,
+  TransactionSearch,
+  TransactionToSave,
+} from '@animando/transaction';
 import { PagedRequestMeta, PagedResponse } from '@animando/utils';
-import { logger } from '@animando/logger';
 
 @Injectable()
 export class TransactionsService {
@@ -15,10 +18,10 @@ export class TransactionsService {
   }
 
   getLatestTransactions(
-    meta?: PagedRequestMeta
+    meta: PagedRequestMeta | undefined,
+    search: TransactionSearch | undefined
   ): Promise<PagedResponse<Transaction[]>> {
-    logger.info('1');
-    return this.repository.getLatestTransactions(meta);
+    return this.repository.getLatestTransactions(meta, search);
   }
 
   newTransaction(transaction: TransactionToSave) {

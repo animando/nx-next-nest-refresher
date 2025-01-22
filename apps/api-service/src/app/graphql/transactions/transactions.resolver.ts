@@ -1,7 +1,6 @@
 import { TransactionsService } from './transactions.service';
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { Transaction } from '@animando/transaction';
-import { logger } from '@animando/logger';
+import { Transaction, TransactionSearch } from '@animando/transaction';
 import { PagedRequestMeta, PagedResponse } from '@animando/utils';
 
 const getPagedRequestMeta = ({
@@ -27,7 +26,6 @@ export class TransactionsResolver {
     @Args('limit') limit?: number,
     @Args('nextToken') nextToken?: string
   ): Promise<PagedResponse<Transaction[]>> {
-    logger.info('transactions query resolver', { limit, nextToken });
     const rs = await this.transactionsService.getTransactions(
       getPagedRequestMeta({ limit, nextToken })
     );
@@ -37,12 +35,13 @@ export class TransactionsResolver {
   @Query('latestTransactions')
   async getlatestTransactions(
     @Args('limit') limit?: number,
-    @Args('nextToken') nextToken?: string
+    @Args('nextToken') nextToken?: string,
+    @Args('search') search?: string
   ): Promise<PagedResponse<Transaction[]>> {
-    logger.info('latest transactions query resolver', { limit, nextToken });
-    const rs = await this.transactionsService.getLatestTransactions(
-      getPagedRequestMeta({ limit, nextToken })
-    );
+    const rs = await this.transactionsService.getLatestTransactions({
+      meta: getPagedRequestMeta({ limit, nextToken }),
+      search: search ? (JSON.parse(search) as TransactionSearch) : undefined,
+    });
     return rs;
   }
 }

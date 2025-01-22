@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { Transaction as DbTransaction, Prisma } from '@prisma/client';
-import { Transaction, TransactionToSave } from '@animando/transaction';
+import {
+  Transaction,
+  TransactionSearch,
+  TransactionToSave,
+} from '@animando/transaction';
 import {
   createCursorNextToken,
   createSkipNextToken,
@@ -10,7 +14,38 @@ import {
   PagedRequestMeta,
   PagedResponse,
 } from '@animando/utils';
-import { logger } from '@animando/logger';
+
+type SearchClause =
+  | {
+      contains: string;
+    }
+  | { equals: string };
+
+type Operator = 'contains' | 'equals';
+
+const getOperator = (key: keyof TransactionSearch): Operator => {
+  switch (key) {
+    case 'transactionType':
+      return 'equals';
+    case 'transactionDescription':
+      return 'contains';
+    default:
+      throw Error('unknown key');
+  }
+};
+
+const createWhereClause = (search: TransactionSearch) => {
+  return Object.entries(search).reduce<
+    Record<keyof TransactionSearch, SearchClause>
+  >((acc, [key, value]) => {
+    const searchKey = key as keyof TransactionSearch;
+    const operator = getOperator(searchKey);
+    return {
+      ...acc,
+      [searchKey]: { [operator]: value },
+    };
+  }, {} as Record<keyof TransactionSearch, SearchClause>);
+};
 
 @Injectable()
 export class TransactionsRepository {
@@ -46,15 +81,16 @@ export class TransactionsRepository {
   }
 
   async getLatestTransactions(
-    meta?: PagedRequestMeta
+    meta?: PagedRequestMeta,
+    search?: TransactionSearch
   ): Promise<PagedResponse<Transaction[]>> {
-    logger.info('2');
     const cursor = getCursorFromMeta(meta);
     const take = meta?.limit ?? undefined;
-    logger.info('3', { take, cursor, limit: meta?.limit });
+    const whereClause = search ? createWhereClause(search) : undefined;
     const transactions = (
       await this.prisma.transaction.findMany({
         skip: cursor ? 1 : undefined,
+        where: whereClause,
         cursor: cursor
           ? {
               id: cursor,

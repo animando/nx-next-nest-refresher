@@ -1,9 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
-import { Transaction } from '@animando/transaction';
+import { Transaction, TransactionSearch } from '@animando/transaction';
 import { PagedRequestMeta, PagedResponse } from '@animando/utils';
-import { logger } from '@animando/logger';
 
 @Injectable()
 export class TransactionsService {
@@ -24,15 +23,19 @@ export class TransactionsService {
     });
   }
 
-  async getLatestTransactions(
-    meta?: PagedRequestMeta
-  ): Promise<PagedResponse<Transaction[]>> {
-    logger.info('get latest trx', { meta });
+  async getLatestTransactions({
+    meta,
+    search,
+  }: {
+    meta?: PagedRequestMeta;
+    search?: TransactionSearch;
+  }): Promise<PagedResponse<Transaction[]>> {
     return this.rabbitClient.request<PagedResponse<Transaction[]>>({
       exchange: TOPIC_EXCHANGE_NAME,
       routingKey: 'transactions.get.latest',
       payload: {
         meta,
+        search,
       },
     });
   }
