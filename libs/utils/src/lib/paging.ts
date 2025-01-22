@@ -1,3 +1,5 @@
+import { logger } from '@animando/logger';
+
 export type PagedResponse<T> = {
   data: T;
   meta: {
@@ -11,19 +13,41 @@ export type PagedRequestMeta = {
   nextToken?: string;
 };
 
-type NextTokenV1 = {
+type SkipNextTokenV1 = {
   v: 1;
   skip: number;
 };
+type CursorNextTokenV1 = {
+  v: 1;
+  cursor: string;
+};
 export const getSkipFromMeta = (meta?: PagedRequestMeta): number => {
   const skip = meta?.nextToken
-    ? (JSON.parse(atob(meta.nextToken)) as NextTokenV1).skip
+    ? (JSON.parse(atob(meta.nextToken)) as SkipNextTokenV1).skip
     : undefined;
   return skip || 0;
 };
+export const getCursorFromMeta = (
+  meta?: PagedRequestMeta
+): string | undefined => {
+  logger.info('2.1', { meta });
+  const cursor = meta?.nextToken
+    ? (JSON.parse(atob(meta.nextToken)) as CursorNextTokenV1).cursor
+    : undefined;
+  logger.info('2.2');
+  logger.info('cursor', { cursor });
+  return cursor || undefined;
+};
 
-export const createNextToken = (skip: number): string => {
-  const tokenObj: NextTokenV1 = {
+export const createCursorNextToken = (cursor: string): string => {
+  const tokenObj: CursorNextTokenV1 = {
+    v: 1,
+    cursor,
+  };
+  return btoa(JSON.stringify(tokenObj));
+};
+export const createSkipNextToken = (skip: number): string => {
+  const tokenObj: SkipNextTokenV1 = {
     v: 1,
     skip,
   };

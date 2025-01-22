@@ -37,6 +37,36 @@ export class TransactionsController {
     return allTransactions;
   }
 
+  @RabbitRPC({
+    exchange: TOPIC_EXCHANGE_NAME,
+    routingKey: 'transactions.get.latest',
+    queue: 'rpc-queue-latest',
+    queueOptions: {
+      durable: false,
+      autoDelete: false,
+    },
+  })
+  getLatestTransactions(
+    @RabbitPayload()
+    request: { meta?: PagedRequestMeta },
+    @RabbitRequest() message: Message
+  ) {
+    logger.info('get latest transactions xx', {
+      request,
+      isUnde: request === undefined,
+    });
+    const {
+      fields: { deliveryTag },
+    } = message;
+    try {
+      return this.transactionsService.getLatestTransactions(request?.meta);
+    } catch (err: any) {
+      logger.info('caught error', { deliveryTag });
+      logger.error(err.message);
+      return new Nack(false);
+    }
+  }
+
   @RabbitSubscribe({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'transaction.new',
