@@ -14,8 +14,9 @@ export class TxPublishingService {
   async publishTransactions() {
     const res = await this.amqpConnection?.publish(
       TOPIC_EXCHANGE_NAME,
-      'tx.initiateTransactions',
-      { value: 1 }
+      'tx.msg.somemessage',
+      { value: 1 },
+      { retries: 1 }
     );
     logger.info('initiate transactions', { res });
   }

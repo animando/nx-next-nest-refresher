@@ -28,17 +28,19 @@ export class ProductInventoryController {
 
   @RabbitSubscribe({
     exchange: TOPIC_EXCHANGE_NAME,
-    routingKey: 'tx.*',
+    routingKey: 'tx.msg.*',
     queue: 'product-inventory-service',
     queueOptions: {
       durable: true,
       autoDelete: false,
+      deadLetterRoutingKey: 'dlq.tx.msg',
+      deadLetterExchange: TOPIC_EXCHANGE_NAME,
     },
   })
   publishTransactions(arg1: any, arg2: any) {
     if (Math.random() > 2 / 3) {
       logger.info('initiateTx - random failure');
-      return new Nack(true);
+      return new Nack(false);
     }
     logger.info('initiateTx', arg1, arg2);
   }
@@ -51,11 +53,11 @@ export class ProductInventoryController {
       autoDelete: true,
     },
   })
-  broadcastProcessor(arg1: any, arg2: any) {
+  broadcastProcessor() {
     if (Math.random() > 2 / 3) {
       logger.info('broadcastProcessor - random failure');
-      return new Nack(true);
+      return new Nack(false);
     }
-    logger.info('broadcastProcessor', arg1, arg2);
+    logger.info('broadcastProcessor');
   }
 }
