@@ -21,6 +21,8 @@ spec:
           env:
             - name: NEXT_PUBLIC_API_SERVICE_URL
               value: 'http://minikube:32212'
+            - name: NEXT_PUBLIC_WS_SERVER_URL
+              value: 'http://minikube:30149'
           ports:
             - containerPort: 3000
 ---

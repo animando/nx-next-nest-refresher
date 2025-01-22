@@ -1,7 +1,7 @@
-import { logger } from '@animando/logger';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Inject, Injectable } from '@nestjs/common';
-import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
+import { WEBSOCKETS_EXCHANGE_NAME } from '@animando/rabbit';
+import { Transaction } from '@animando/transaction';
 
 @Injectable()
 export class TxPublishingService {
@@ -11,13 +11,16 @@ export class TxPublishingService {
     this.amqpConnection = amqpConnection;
   }
 
-  async publishTransactions() {
-    const res = await this.amqpConnection?.publish(
-      TOPIC_EXCHANGE_NAME,
-      'tx.msg.somemessage',
-      { value: 1 },
-      { retries: 1 }
+  async publishTransaction(transaction: Transaction) {
+    return this.amqpConnection?.publish(
+      WEBSOCKETS_EXCHANGE_NAME,
+      'ws.publish.newTransaction',
+      transaction,
+      {
+        headers: {
+          'animando-room': 'transactions',
+        },
+      }
     );
-    logger.info('initiate transactions', { res });
   }
 }

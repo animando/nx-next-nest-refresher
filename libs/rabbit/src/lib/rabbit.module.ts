@@ -6,6 +6,7 @@ import {
   DIRECT_EXCHANGE_NAME,
   FANOUT_EXCHANGE_NAME,
   TOPIC_EXCHANGE_NAME,
+  WEBSOCKETS_EXCHANGE_NAME,
 } from './rabbit';
 
 const createRabbitConfig = (config: RabbitConfigService): RabbitMQConfig => ({
@@ -21,6 +22,10 @@ const createRabbitConfig = (config: RabbitConfigService): RabbitMQConfig => ({
     {
       name: DIRECT_EXCHANGE_NAME,
       type: 'direct',
+    },
+    {
+      name: WEBSOCKETS_EXCHANGE_NAME,
+      type: 'topic',
     },
   ],
   uri: config.url,

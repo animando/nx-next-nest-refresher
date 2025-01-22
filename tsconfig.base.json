@@ -22,6 +22,7 @@
       "@animando/queue": ["libs/queue/src/index.ts"],
       "@animando/rabbit": ["libs/rabbit/src/index.ts"],
       "@animando/redis": ["infra/redis/src/index.ts"],
+      "@animando/transaction": ["libs/transaction/src/index.ts"],
       "@animando/utils": ["libs/utils/src/index.ts"]
     }
   },

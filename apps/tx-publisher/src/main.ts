@@ -15,9 +15,7 @@ async function bootstrap() {
   // await redisIoAdapter.connectToRedis();
   // app.useWebSocketAdapter(redisIoAdapter);
 
-  const port = process.env.PORT || 12222;
-  await app.listen(port);
-  logger.info(`Application is running on: ${await app.getUrl()}`);
+  await app.init();
 }
 
 bootstrap();

@@ -21,6 +21,8 @@ spec:
           env:
             - name: PORT
               value: '8000'
+            - name: WEBSOCKET_PORT
+              value: '8001'
             - name: RABBIT_HOST
               value: 'rabbit'
             - name: RABBIT_PORT
@@ -37,6 +39,7 @@ spec:
               value: '{"age": 60000, "count": 200}'
           ports:
             - containerPort: 8000
+            - containerPort: 8001
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -76,6 +79,21 @@ spec:
     - name: http
       port: 80
       targetPort: 8000
+      protocol: TCP
+  type: NodePort
+  selector:
+    app: api-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service-ws
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 8001
+      targetPort: 8001
       protocol: TCP
   type: NodePort
   selector:

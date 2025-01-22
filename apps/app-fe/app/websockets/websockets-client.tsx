@@ -1,46 +1,34 @@
 'use client';
-import { io, type Socket } from 'socket.io-client';
+import { useCallback, useMemo, useState } from 'react';
+import { useWebsocket } from './useWebsocket';
 
-import { useEffect, useState } from 'react';
-
-const wsServerUrl =
-  process.env['NEXT_PUBLIC_WS_SERVER_URL'] || 'http://localhost:12222';
-
-console.log({ wsServerUrl });
-export const WebsocketsClient = () => {
-  const [socket, setSocket] = useState<Socket>();
-  useEffect(() => {
-    try {
-      console.log('establish connection');
-      const s = io(wsServerUrl);
-      console.log(s);
-      if (s) {
-        setSocket(s);
-        s.on('from-server', (payload) => {
-          console.log('got message from server', payload);
-        });
-        s.on('connect', () => {
-          console.log('connected');
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
+const useTransactionsWebsocketConfig = () => {
+  const [transactions, setTransactions] = useState<unknown[]>([]);
+  const onNewTransaction = useCallback((trx: unknown) => {
+    setTransactions((t) => t.concat(trx));
   }, []);
+  const config = useMemo(
+    () => ({
+      rooms: ['transactions'],
+      handlers: {
+        newTransaction: onNewTransaction,
+      },
+    }),
+    [onNewTransaction]
+  );
+  const { connected } = useWebsocket(config);
 
-  const onSend = () => {
-    if (!socket) return;
-    socket.emit('events', 'test', (val: unknown) => {
-      console.log('got response', val);
-    });
-  };
+  return { connected, transactions };
+};
+export const WebsocketsClient = () => {
+  const { connected, transactions } = useTransactionsWebsocketConfig();
 
   return (
     <div>
-      Hello websockets
-      <button disabled={!socket} onClick={onSend}>
-        Send
-      </button>
+      <p>Hello websockets - {connected ? 'Connected' : 'Disconnected'}</p>
+      {transactions.map((t, idx) => (
+        <p key={idx}>{JSON.stringify(t)}</p>
+      ))}
     </div>
   );
 };
