@@ -15,4 +15,7 @@ spec:
           image: transaction-service-db-migrate:alpha
           env:
             - name: TRANSACTIONS_DATABASE_URL
-              value: 'postgresql://postgres:example@postgres:5432/postgres?schema=public'
+              valueFrom:
+                secretKeyRef:
+                  name: transaction-service-secrets
+                  key: TRANSACTIONS_DATABASE_URL

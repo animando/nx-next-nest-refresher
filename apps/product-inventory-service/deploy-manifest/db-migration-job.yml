@@ -15,4 +15,7 @@ spec:
           image: product-inventory-service-db-migrate:alpha
           env:
             - name: PRODUCT_INVENTORY_DATABASE_URL
-              value: 'postgresql://product_inventory_user:fcgvIOF5V0OEqwZwGYQj%2FrZDjYzAeaIKe%2BczqSz%2FGKQ%3D@localhost:15432/product_inventory?schema=public'
+              valueFrom:
+                secretKeyRef:
+                  name: product-inventory-service-secrets
+                  key: PRODUCT_INVENTORY_DATABASE_URL

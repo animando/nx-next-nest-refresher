@@ -1,17 +1,17 @@
 FROM node:20-alpine AS build
 
-ARG service=transaction-service
+ARG app_name=transaction-service
 
 WORKDIR /app
 
 RUN apk update && apk add openssl
 
-COPY dist/apps/${service}/package.json .
+COPY dist/apps/${app_name}/package.json .
 
 RUN npm install -g pnpm
 RUN pnpm install --prod
 
-COPY dist/apps/${service}/ .
+COPY dist/apps/${app_name}/ .
 RUN npx prisma generate
 
 FROM build AS service
