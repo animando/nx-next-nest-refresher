@@ -13,7 +13,7 @@ const initSocket = () => {
   return io(wsServerUrl);
 };
 
-type Handler = (value: unknown) => void;
+export type Handler = (value: unknown) => void;
 type HandlerMap = Record<string, Handler>;
 type UseWebsocketConfig = {
   handlers?: HandlerMap;

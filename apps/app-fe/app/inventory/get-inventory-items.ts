@@ -6,6 +6,7 @@ import {
 const client = getServersideGraphqlClient();
 
 export const getInventoryItems = async () => {
+  console.log('getInventoryItems using server client');
   const { error, data } = await client.query<InventoryQuery>(
     InventoryDocument,
     {}

@@ -5,10 +5,12 @@ import {
   RabbitPayload,
   RabbitHeader,
 } from '@golevelup/nestjs-rabbitmq';
-import { WEBSOCKETS_EXCHANGE_NAME } from '@animando/rabbit';
+import { createQueueName, WEBSOCKETS_EXCHANGE_NAME } from '@animando/rabbit';
 import { Message } from 'amqplib';
 import { WebsocketEventsGateway } from './ws-events-gateway.service';
 import { logger } from '@animando/logger';
+
+const createTopicQueueName = createQueueName('api-service')('topic');
 
 @Controller()
 export class WebsocketsController {
@@ -19,7 +21,7 @@ export class WebsocketsController {
   @RabbitSubscribe({
     exchange: WEBSOCKETS_EXCHANGE_NAME,
     routingKey: 'ws.publish.*',
-    queue: 'api-service-ws-publish',
+    queue: createTopicQueueName('ws.publish.*'),
     queueOptions: {
       durable: false,
       autoDelete: true,

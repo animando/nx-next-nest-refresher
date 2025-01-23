@@ -18,7 +18,13 @@ module.exports = {
       generatePackageJson: true,
     }),
     new CopyPlugin({
-      patterns: [{ from: './prisma', to: './prisma' }],
+      patterns: [
+        { from: './prisma', to: './prisma' },
+        {
+          from: 'src/generated/prisma',
+          to: 'apps/transaction-service/src/generated/prisma',
+        },
+      ],
     }),
   ],
 };

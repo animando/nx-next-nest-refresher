@@ -3,6 +3,12 @@ import { Controller } from '@nestjs/common';
 import { logger } from '@animando/logger';
 import { RabbitRPC, RabbitSubscribe, Nack } from '@golevelup/nestjs-rabbitmq';
 import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
+import { createQueueName } from '@animando/rabbit';
+
+const createRpcQueueName = createQueueName('product-inventory-service')('rpc');
+const createTopicQueueName = createQueueName('product-inventory-service')(
+  'topic'
+);
 
 @Controller()
 export class ProductInventoryController {
@@ -11,7 +17,7 @@ export class ProductInventoryController {
   @RabbitRPC({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'inventory.get',
-    queue: 'rpc-queue',
+    queue: createRpcQueueName('inventory.get'),
     queueOptions: {
       durable: false,
       autoDelete: false,
@@ -29,7 +35,7 @@ export class ProductInventoryController {
   @RabbitSubscribe({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'tx.msg.*',
-    queue: 'product-inventory-service',
+    queue: createTopicQueueName('tx.msg.*'),
     queueOptions: {
       durable: true,
       autoDelete: false,
@@ -48,6 +54,7 @@ export class ProductInventoryController {
   @RabbitSubscribe({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'tx.broadcast',
+    queue: createTopicQueueName(`tx.broadcast`, true),
     queueOptions: {
       durable: false,
       autoDelete: true,

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ProductInventoryRepository } from './product-inventory.repository';
 import { InventoryItem, PriceDetails } from '@animando/inventory';
-import { InventoryItem as DbInventoryItem } from '@prisma/client';
+import { InventoryItem as PrismaInventoryItem } from '../../generated/prisma';
 
-const mapPriceDetails = (item: DbInventoryItem): PriceDetails => {
+const mapPriceDetails = (item: PrismaInventoryItem): PriceDetails => {
   if (item.initialPrice !== null) {
     if (item.recurringPrice === null) {
       return {
@@ -25,7 +25,7 @@ const mapPriceDetails = (item: DbInventoryItem): PriceDetails => {
   throw new Error('invalid price data');
 };
 
-const mapToInventoryItem = (item: DbInventoryItem): InventoryItem => ({
+const mapToInventoryItem = (item: PrismaInventoryItem): InventoryItem => ({
   ...item,
   currency: item.currency,
   priceDetails: mapPriceDetails(item),

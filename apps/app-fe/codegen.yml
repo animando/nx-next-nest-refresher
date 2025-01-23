@@ -1,11 +1,21 @@
-schema: 'apps/api-service/src/app/product-inventory/product-inventory.graphql'
-documents: 'apps/app-fe/app/inventory/product-inventory.graphql'
 generates:
   'apps/app-fe/app/inventory/generated/product-information.ts':
     plugins:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-urql'
+    documents: 'apps/app-fe/app/inventory/product-inventory.graphql'
+    schema: 'apps/api-service/src/app/graphql/product-inventory/product-inventory.graphql'
+    config:
+      withComponent: false
+      withHooks: false
+  'apps/app-fe/app/websockets/generated/transactions.ts':
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+    documents: 'apps/app-fe/app/websockets/transactions.graphql'
+    schema: 'apps/api-service/src/app/graphql/transactions/transactions.graphql'
     config:
       withComponent: false
       withHooks: false

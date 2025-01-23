@@ -41,7 +41,6 @@ export const InventoryListContainer = () => {
   const { items, setInventory } = usePersistentStore();
 
   useEffect(() => {
-    console.log('inventory changed');
     setInventory(mapInventoryData(data?.inventory || []));
   }, [data?.inventory, setInventory]);
 

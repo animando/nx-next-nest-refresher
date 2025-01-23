@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Transaction as DbTransaction, Prisma } from '@prisma/client';
 import {
   Transaction,
   TransactionSearch,
@@ -14,6 +13,10 @@ import {
   PagedRequestMeta,
   PagedResponse,
 } from '@animando/utils';
+import {
+  Prisma,
+  Transaction as PrismaTransaction,
+} from '../../generated/prisma';
 
 type SearchClause =
   | {
@@ -134,7 +137,7 @@ const toPrismaTransactionForCreate = (
   };
 };
 
-const fromPrismaTransaction = (value: DbTransaction): Transaction => {
+const fromPrismaTransaction = (value: PrismaTransaction): Transaction => {
   const { ...rest } = value;
 
   return {

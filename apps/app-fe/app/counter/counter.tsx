@@ -5,7 +5,6 @@ import { useStore } from '../../src/store/store';
 
 export const Counter = () => {
   const state = useStore();
-  console.log(state.counter);
 
   return (
     <div>

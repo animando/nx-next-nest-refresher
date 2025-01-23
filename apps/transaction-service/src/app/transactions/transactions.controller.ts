@@ -8,12 +8,15 @@ import {
   RabbitRPC,
   RabbitSubscribe,
 } from '@golevelup/nestjs-rabbitmq';
-import { TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
+import { createQueueName, TOPIC_EXCHANGE_NAME } from '@animando/rabbit';
 import { TransactionSearch, TransactionToSave } from '@animando/transaction';
 import { Message } from 'amqplib';
 import { PagedRequestMeta } from '@animando/utils';
 
 const RETRIES = 5;
+
+const createRpcQueueName = createQueueName('transaction-service')('rpc');
+const createTopicQueueName = createQueueName('transaction-service')('topic');
 
 @Controller()
 export class TransactionsController {
@@ -22,7 +25,7 @@ export class TransactionsController {
   @RabbitRPC({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'transactions.get.all',
-    queue: 'rpc-queue',
+    queue: createRpcQueueName('transactions.get.all'),
     queueOptions: {
       durable: false,
       autoDelete: false,
@@ -40,7 +43,7 @@ export class TransactionsController {
   @RabbitRPC({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'transactions.get.latest',
-    queue: 'rpc-queue-latest',
+    queue: createRpcQueueName('transactions.get.latest'),
     queueOptions: {
       durable: false,
       autoDelete: false,
@@ -67,7 +70,7 @@ export class TransactionsController {
   @RabbitSubscribe({
     exchange: TOPIC_EXCHANGE_NAME,
     routingKey: 'transaction.new',
-    queue: 'transaction-service',
+    queue: createTopicQueueName('transaction.new'),
     queueOptions: {
       durable: true,
       autoDelete: false,
