@@ -1,22 +1,31 @@
 import { Virtualizer } from '@tanstack/react-virtual';
 import { useEffect, useMemo } from 'react';
+import debounce from 'lodash.debounce';
 
-export const useInfiniteScroll = <T>(
-  virtualizer: Virtualizer<HTMLDivElement, Element>,
-  allData: T[],
-  loadMore: () => void,
-  hasMore: boolean
-) => {
+export const useInfiniteScroll = <T>({
+  virtualizer,
+  data,
+  loadMore,
+  hasMore,
+  threshold,
+}: {
+  virtualizer: Virtualizer<HTMLDivElement, Element>;
+  data: T[];
+  loadMore: () => void;
+  hasMore: boolean;
+  threshold: number;
+}) => {
+  const debouncedLoadMore = useMemo(() => debounce(loadMore, 1000), [loadMore]);
   const virtualItems = virtualizer.getVirtualItems();
   const delta = useMemo(() => {
     if (!virtualItems.length) return null;
-    return allData.length - virtualItems[virtualItems.length - 1].index - 1;
-  }, [virtualItems, allData]);
+    return (virtualItems[virtualItems.length - 1].index + 1) / data.length;
+  }, [virtualItems, data]);
 
   useEffect(() => {
-    if (delta === null || !hasMore || delta > 5) {
+    if (delta === null || !hasMore || delta < threshold) {
       return;
     }
-    loadMore();
-  }, [delta, hasMore, loadMore]);
+    debouncedLoadMore();
+  }, [delta, hasMore, debouncedLoadMore, threshold]);
 };

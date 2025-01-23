@@ -1,6 +1,10 @@
 import { UITransaction } from './types';
 
-import { useVirtualizer } from '@tanstack/react-virtual';
+import {
+  notUndefined,
+  useVirtualizer,
+  VirtualItem,
+} from '@tanstack/react-virtual';
 import {
   createColumnHelper,
   flexRender,
@@ -8,23 +12,85 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import type { ColumnDef, SortingState } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  Header,
+  Row,
+  SortingState,
+} from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
 import { useMemo, useRef, useState } from 'react';
 import { useInfiniteScroll } from '../../src/utils/paging';
+import cx from 'clsx';
 
 type TransactionsViewProps = {
   transactions: UITransaction[];
   hasMore: boolean;
-  isLiveConnected: boolean;
+  isLive: boolean;
+  isLoading: boolean;
   loadMore: () => void;
 };
 const columnHelper = createColumnHelper<UITransaction>();
+
+const HeaderCell = ({ header }: { header: Header<UITransaction, unknown> }) => (
+  <th
+    colSpan={header.colSpan}
+    style={{
+      width: header.getSize() + 2,
+    }}
+    className={cx(
+      'px-4 py-2 border border-gray-500 sticky z-20 top-0 bg-gray-500 text-white'
+    )}
+  >
+    {header.isPlaceholder ? null : (
+      <div
+        {...{
+          className: header.column.getCanSort()
+            ? 'cursor-pointer select-none'
+            : '',
+          onClick: header.column.getToggleSortingHandler(),
+        }}
+      >
+        {flexRender(header.column.columnDef.header, header.getContext())}
+        {{
+          asc: ' 🔼',
+          desc: ' 🔽',
+        }[header.column.getIsSorted() as string] ?? null}
+      </div>
+    )}
+  </th>
+);
+
+const TableRow = ({
+  row,
+  virtualRow,
+  idx,
+}: {
+  row: Row<UITransaction>;
+  virtualRow: VirtualItem;
+  idx: number;
+}) => (
+  <tr
+    key={row.id}
+    style={{
+      height: `${virtualRow.size}px`,
+    }}
+  >
+    {row.getVisibleCells().map((cell) => {
+      return (
+        <td key={cell.id}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </td>
+      );
+    })}
+  </tr>
+);
 
 export const TransactionsView = ({
   transactions,
   hasMore,
   loadMore,
+  isLoading,
 }: TransactionsViewProps) => {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'createdAt', desc: true },
@@ -36,20 +102,15 @@ export const TransactionsView = ({
         cell: (info) => <span>{info.getValue()}</span>,
         header: 'Id',
       }),
-      columnHelper.group({
-        header: 'Transaction Details',
-        columns: [
-          columnHelper.accessor('transactionType', {
-            cell: (info) => info.getValue(),
-            header: 'Type',
-          }),
-          columnHelper.accessor('transactionDescription', {
-            cell: (info) => info.getValue(),
-            header: 'Description',
-            minSize: 600,
-            enableSorting: false,
-          }),
-        ],
+      columnHelper.accessor('transactionType', {
+        cell: (info) => info.getValue(),
+        header: 'Type',
+      }),
+      columnHelper.accessor('transactionDescription', {
+        cell: (info) => info.getValue(),
+        header: 'Description',
+        minSize: 600,
+        enableSorting: false,
       }),
       columnHelper.accessor('transactionDate', {
         cell: (info) => formatDate(info.getValue(), 'dd-MM-yyyy HH:mm:ss'),
@@ -89,75 +150,57 @@ export const TransactionsView = ({
     overscan: 5,
   });
 
-  useInfiniteScroll(virtualizer, transactions, loadMore, hasMore);
-
+  useInfiniteScroll({
+    virtualizer,
+    data: transactions,
+    loadMore,
+    hasMore,
+    threshold: 0.95,
+  });
   const virtualItems = virtualizer.getVirtualItems();
+  const [before, after] =
+    virtualItems.length > 0
+      ? [
+          notUndefined(virtualItems[0]).start -
+            virtualizer.options.scrollMargin,
+          virtualizer.getTotalSize() -
+            notUndefined(virtualItems[virtualItems.length - 1]).end,
+        ]
+      : [0, 0];
+  const colSpan = 4;
 
   return (
-    <div ref={parentRef} className="max-h-[600px]" style={{ overflow: 'auto' }}>
+    <div ref={parentRef} className="max-h-[600px] overflow-auto">
       <div style={{ height: `${virtualizer.getTotalSize()}px` }}>
         <table>
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      style={{ width: header.getSize() }}
-                    >
-                      {header.isPlaceholder ? null : (
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : '',
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                      )}
-                    </th>
-                  );
-                })}
+                {headerGroup.headers.map((header, idx) => (
+                  <HeaderCell key={header.id} header={header} />
+                ))}
               </tr>
             ))}
           </thead>
           <tbody>
-            {virtualItems.map((virtualRow, index) => {
-              const row = rows[virtualRow.index];
-              return (
-                <tr
-                  key={row.id}
-                  style={{
-                    height: `${virtualRow.size}px`,
-                    transform: `translateY(${
-                      virtualRow.start - index * virtualRow.size
-                    }px)`,
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <td key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
+            {before > 0 && (
+              <tr>
+                <td colSpan={colSpan} style={{ height: before }} />
+              </tr>
+            )}
+            {virtualItems.map((virtualRow, index) => (
+              <TableRow
+                key={rows[virtualRow.index].id}
+                row={rows[virtualRow.index]}
+                idx={index}
+                virtualRow={virtualRow}
+              />
+            ))}
+            {after > 0 && (
+              <tr>
+                <td colSpan={colSpan} style={{ height: after }} />
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

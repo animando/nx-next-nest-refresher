@@ -35,3 +35,7 @@ Follow 'Linux OS with systemd-resolved'
 ## Persistent volumes not surviving minikube restart
 
 Locate under /mnt/sda1/data
+
+## Tanstack virtual table with sticky header
+
+https://github.com/TanStack/virtual/issues/640

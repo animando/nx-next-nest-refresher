@@ -14,16 +14,16 @@ type LoadMore = () => void;
 
 const useTransactionsQuery = (
   addTransactions: AddTransactions
-): [LoadMore, boolean] => {
+): { loadMore: LoadMore; hasMore: boolean; isLoading: boolean } => {
   const initialLoadDone = useRef<boolean>(false);
   const [nextToken, setNextToken] = useState<string | null>(null);
   const [nextTokenToUse, setNextTokenToUse] = useState<string | null>(null);
-  const [{ data }, revalidate] = useQuery<LatestTransactionsQuery>({
+  const [{ data, fetching }, revalidate] = useQuery<LatestTransactionsQuery>({
     query: LatestTransactionsDocument,
     requestPolicy: 'cache-and-network',
     pause: true,
     variables: {
-      limit: 20,
+      limit: 200,
       nextToken: nextTokenToUse,
     },
   });
@@ -42,10 +42,11 @@ const useTransactionsQuery = (
   }, [revalidate]);
 
   const loadMore = useCallback<LoadMore>(() => {
+    console.log('load more');
     setNextTokenToUse(nextToken);
     initialLoadDone.current = false;
   }, [nextToken]);
-  return [loadMore, nextToken !== null];
+  return { loadMore, hasMore: nextToken !== null, isLoading: fetching };
 };
 
 const useTransactionsStore = (): [UITransaction[], AddTransactions] => {
@@ -84,6 +85,7 @@ const useTransactionsWebsocketConfig = (addTransactions: AddTransactions) => {
 export const useTransactionsData = () => {
   const [transactions, addTransactions] = useTransactionsStore();
   const { connected } = useTransactionsWebsocketConfig(addTransactions);
-  const [loadMore, hasMore] = useTransactionsQuery(addTransactions);
-  return { connected, transactions, loadMore, hasMore };
+  const { loadMore, hasMore, isLoading } =
+    useTransactionsQuery(addTransactions);
+  return { connected, transactions, loadMore, hasMore, isLoading };
 };
