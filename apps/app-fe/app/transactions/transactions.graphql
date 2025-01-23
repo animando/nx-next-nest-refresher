@@ -8,6 +8,9 @@ query LatestTransactions($limit: Int, $nextToken: String, $search: String) {
       trxId
       transactionType
       transactionDescription
+      transactionDate
+      createdAt
+      updatedAt
     }
   }
 }

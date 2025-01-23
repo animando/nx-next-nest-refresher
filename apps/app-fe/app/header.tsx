@@ -18,8 +18,8 @@ const pages: Page[] = [
     route: '/server-action',
   },
   {
-    name: 'Websockets',
-    route: '/websockets',
+    name: 'Transactions',
+    route: '/transactions',
   },
 ];
 

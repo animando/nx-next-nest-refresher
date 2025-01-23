@@ -10,7 +10,7 @@ const isServer = () => !global.window;
 
 const initSocket = () => {
   if (isServer()) return null;
-  return io(wsServerUrl);
+  return io(wsServerUrl, { autoConnect: false });
 };
 
 export type Handler = (value: unknown) => void;
@@ -40,17 +40,21 @@ export const useWebsocket = ({
   }, [onConnect]);
 
   useEffect(() => {
-    if (socketRef.current) return;
+    if (socketRef.current) {
+      return;
+    }
     socketRef.current = initSocket();
     const socket = socketRef.current;
     if (socket) {
       setSocket(socket);
       socket.on('connect', onConnect);
       socket.on('disconnect', onDisconnect);
+      socket.connect();
     }
     return () => {
       if (socket) {
         socket.disconnect();
+        socketRef.current = null;
       }
     };
   }, [onConnect, onDisconnect]);

@@ -11,7 +11,7 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
 };
 
 const plugins = [

@@ -17,7 +17,20 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        flash: {
+          '0%, 100%': { background: 'white' },
+          '50%': { background: 'yellow' },
+        },
+      },
+      animation: {
+        flash: 'flash 0.5s ease-in-out',
+      },
+      animationIterationCount: {
+        3: '3',
+      },
+    },
   },
   darkMode: 'class',
   plugins: [require('@tailwindcss/typography'), nextui()],

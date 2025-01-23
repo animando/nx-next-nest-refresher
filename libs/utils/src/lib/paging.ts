@@ -1,5 +1,3 @@
-import { logger } from '@animando/logger';
-
 export type PagedResponse<T> = {
   data: T;
   meta: {

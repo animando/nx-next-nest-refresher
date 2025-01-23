@@ -1,17 +1,13 @@
-'use client';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Handler, useWebsocket } from './useWebsocket';
-import { useQuery, UseQueryExecute } from '@urql/next';
+import { useQuery } from '@urql/next';
 
 import {
   LatestTransactionsQuery,
   LatestTransactionsDocument,
 } from './generated/transactions';
+import { UITransaction } from './types';
 
-type UITransaction = Omit<
-  NonNullable<LatestTransactionsQuery['latestTransactions']>['data'][number],
-  '__typename'
->;
 type AddTransactions = (...t: UITransaction[]) => void;
 
 type LoadMore = () => void;
@@ -19,6 +15,7 @@ type LoadMore = () => void;
 const useTransactionsQuery = (
   addTransactions: AddTransactions
 ): [LoadMore, boolean] => {
+  const initialLoadDone = useRef<boolean>(false);
   const [nextToken, setNextToken] = useState<string | null>(null);
   const [nextTokenToUse, setNextTokenToUse] = useState<string | null>(null);
   const [{ data }, revalidate] = useQuery<LatestTransactionsQuery>({
@@ -26,12 +23,11 @@ const useTransactionsQuery = (
     requestPolicy: 'cache-and-network',
     pause: true,
     variables: {
-      limit: 5,
+      limit: 20,
       nextToken: nextTokenToUse,
     },
   });
   useEffect(() => {
-    console.log('data updated');
     if (data?.latestTransactions) {
       addTransactions(...data.latestTransactions.data);
       setNextToken(data.latestTransactions.meta.nextToken || null);
@@ -39,11 +35,15 @@ const useTransactionsQuery = (
   }, [data, addTransactions]);
 
   useEffect(() => {
-    revalidate();
+    if (!initialLoadDone.current) {
+      revalidate();
+      initialLoadDone.current = true;
+    }
   }, [revalidate]);
 
   const loadMore = useCallback<LoadMore>(() => {
     setNextTokenToUse(nextToken);
+    initialLoadDone.current = false;
   }, [nextToken]);
   return [loadMore, nextToken !== null];
 };
@@ -81,20 +81,9 @@ const useTransactionsWebsocketConfig = (addTransactions: AddTransactions) => {
   return { connected };
 };
 
-export const WebsocketsClient = () => {
+export const useTransactionsData = () => {
   const [transactions, addTransactions] = useTransactionsStore();
   const { connected } = useTransactionsWebsocketConfig(addTransactions);
   const [loadMore, hasMore] = useTransactionsQuery(addTransactions);
-
-  return (
-    <div>
-      <p>Hello websockets - {connected ? 'Connected' : 'Disconnected'}</p>
-      <button disabled={!hasMore} onClick={loadMore}>
-        Load More
-      </button>
-      {transactions.map((t, idx) => (
-        <p key={idx}>{JSON.stringify(t)}</p>
-      ))}
-    </div>
-  );
+  return { connected, transactions, loadMore, hasMore };
 };

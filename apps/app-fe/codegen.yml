@@ -9,12 +9,12 @@ generates:
     config:
       withComponent: false
       withHooks: false
-  'apps/app-fe/app/websockets/generated/transactions.ts':
+  'apps/app-fe/app/transactions/generated/transactions.ts':
     plugins:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-urql'
-    documents: 'apps/app-fe/app/websockets/transactions.graphql'
+    documents: 'apps/app-fe/app/transactions/transactions.graphql'
     schema: 'apps/api-service/src/app/graphql/transactions/transactions.graphql'
     config:
       withComponent: false
