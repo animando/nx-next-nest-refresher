@@ -1,4 +1,4 @@
-import { UITransaction } from './types';
+'use client';
 
 import {
   notUndefined,
@@ -20,9 +20,17 @@ import type {
 } from '@tanstack/react-table';
 import { formatDate } from 'date-fns';
 import { useMemo, useRef, useState } from 'react';
-import { useInfiniteScroll } from '../../src/utils/paging';
 import cx from 'clsx';
+import { useInfiniteScroll } from '@animando/react-utils';
 
+export type UITransaction = {
+  trxId: string;
+  transactionType: string;
+  transactionDescription: string;
+  transactionDate: string;
+  createdAt: string;
+  updatedAt: string;
+};
 type TransactionsViewProps = {
   transactions: UITransaction[];
   hasMore: boolean;

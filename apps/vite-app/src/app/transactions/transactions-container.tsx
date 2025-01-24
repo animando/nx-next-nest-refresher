@@ -1,5 +1,3 @@
-'use client';
-
 import { TransactionsView } from '@animando/ui-components';
 import { useTransactionsData } from './useTransactionsData';
 

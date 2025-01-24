@@ -50,3 +50,4 @@ out
 
 # Sensitive
 passwords
+vite.config.*.timestamp*

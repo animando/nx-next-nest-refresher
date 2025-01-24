@@ -21,8 +21,10 @@
       "@animando/my-plugin": ["tools/my-plugin/src/index.ts"],
       "@animando/queue": ["libs/queue/src/index.ts"],
       "@animando/rabbit": ["libs/rabbit/src/index.ts"],
+      "@animando/react-utils": ["libs/react-utils/src/index.ts"],
       "@animando/redis": ["infra/redis/src/index.ts"],
       "@animando/transaction": ["libs/transaction/src/index.ts"],
+      "@animando/ui-components": ["libs/ui-components/src/index.ts"],
       "@animando/utils": ["libs/utils/src/index.ts"]
     }
   },

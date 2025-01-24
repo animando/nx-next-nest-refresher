@@ -2,7 +2,7 @@ import './global.css';
 import { GraphqlProvider } from './graphql-provider';
 import { NextUIProvider } from '@nextui-org/react';
 import { Header } from './header';
-import { MultipleTabsCheck } from '../src/components';
+import { MultipleTabsCheck } from '@animando/ui-components';
 
 export const metadata = {
   title: 'Welcome to app-fe',

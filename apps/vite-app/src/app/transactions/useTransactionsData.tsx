@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Handler, useWebsocket } from './useWebsocket';
-import { useQuery } from '@urql/next';
 
 import {
   LatestTransactionsQuery,
   LatestTransactionsDocument,
 } from './generated/transactions';
-import { UITransaction } from '@animando/ui-components';
+import { useQuery } from 'urql';
+import { type UITransaction } from '@animando/ui-components';
 
 type AddTransactions = (...t: UITransaction[]) => void;
 
@@ -64,6 +64,7 @@ const useTransactionsStore = (): [UITransaction[], AddTransactions] => {
 const useTransactionsWebsocketConfig = (addTransactions: AddTransactions) => {
   const onNewTransaction = useCallback(
     (trx: UITransaction) => {
+      console.log({ trx });
       addTransactions(trx);
     },
     [addTransactions]
