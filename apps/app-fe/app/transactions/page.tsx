@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { TransactionsContainer } from './transactions-container';
 
 const Page = async () => {
@@ -10,3 +11,9 @@ const Page = async () => {
 };
 
 export default Page;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Some Title',
+  };
+}

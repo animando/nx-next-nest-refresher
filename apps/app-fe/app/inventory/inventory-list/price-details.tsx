@@ -28,6 +28,7 @@ const getRecurringPrice = (priceDetails: InventoryItem['priceDetails']) => {
   }
 };
 export const PriceDetails = ({ item }: InventoryListItemProps) => {
+  console.log('render price details');
   const itemPrice = getItemPrice(item.priceDetails);
   const recurringPrice = getRecurringPrice(item.priceDetails);
 

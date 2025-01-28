@@ -21,6 +21,14 @@ const pages: Page[] = [
     name: 'Transactions',
     route: '/transactions',
   },
+  {
+    name: 'ISR 1 (pre-built)',
+    route: '/isr/pre-built',
+  },
+  {
+    name: 'ISR 2',
+    route: '/isr/not-pre-built',
+  },
 ];
 
 const NavLink = ({ page }: { page: Page }) => (
