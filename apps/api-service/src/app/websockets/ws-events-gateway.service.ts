@@ -10,6 +10,7 @@ import {
 } from '@nestjs/websockets';
 import { logger } from '@animando/logger';
 import { Server, Socket } from 'socket.io';
+import { validateToken } from '../../../../../libs/clerk-auth/src';
 
 const wsPort = Number(process.env['WEBSOCKET_PORT'] || '22201');
 
@@ -20,6 +21,12 @@ type JoinRoomRequestPayload = {
 @WebSocketGateway(wsPort, {
   cors: {
     origin: '*',
+  },
+  allowRequest: async (req, callback) => {
+    const success = await validateToken(
+      req.headers['authorization'?.split(' ')?.[1]]
+    );
+    callback(null, success);
   },
 })
 export class WebsocketEventsGateway
